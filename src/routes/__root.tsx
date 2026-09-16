@@ -5,7 +5,7 @@ import { AppShell } from "@/components/app-shell";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Tinta";
+const APP_NAME = "Magdolna";
 
 export const Route = createRootRoute({
   head: () => ({

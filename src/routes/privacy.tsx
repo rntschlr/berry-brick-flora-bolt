@@ -9,12 +9,12 @@ function PrivacyPage() {
       <PageHeader
         kicker="Legal"
         title="Privacy"
-        lead="Tinta is a grammar notebook. It does not need an account, and it does not sell data."
+        lead="Magdolna is a grammar notebook. It does not need an account, and it does not sell data."
       />
       <Paper className="space-y-4 text-sm leading-relaxed text-muted">
         <p>
           Progress (opened sheets, bookmarks, drill scores) is stored on this
-          device only. It is not sent to a Tinta server, and it is not used for
+          device only. It is not sent to a Magdolna server, and it is not used for
           advertising.
         </p>
         <p>
@@ -23,7 +23,7 @@ function PrivacyPage() {
           logs (IP address, browser, pages opened) to keep the site running.
         </p>
         <p>
-          If you install Tinta from the App Store, the wrapper uses the same
+          If you install Magdolna from the App Store, the wrapper uses the same
           on-device notebook. No extra tracking SDKs are included.
         </p>
         <p>

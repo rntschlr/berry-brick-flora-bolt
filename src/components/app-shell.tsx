@@ -16,7 +16,7 @@ const TABS = [
   { id: "practice", href: "/practice", label: "Drill", icon: Target },
 ] as const;
 
-const INSTALL_KEY = "tinta-install-dismissed";
+const INSTALL_KEY = "magdolna-install-dismissed";
 
 function pathActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
@@ -49,7 +49,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 function Brand() {
   return (
     <Link to="/" className="block">
-      <p className="font-display text-2xl font-semibold tracking-tight text-fg">Tinta</p>
+      <p className="font-display text-2xl font-semibold tracking-tight text-fg">Magdolna</p>
       <p className="text-xs tracking-wide text-muted">Hungarian field notes</p>
     </Link>
   );
@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const tabMatch = TABS.some((tab) => pathActive(pathname, tab.href));
 
   return (
-    <div className="tinta-shell bg-bg text-fg">
+    <div className="magdolna-shell bg-bg text-fg">
       <div className="mx-auto flex min-h-dvh max-w-7xl">
         <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-border px-4 py-6 md:flex">
           <Brand />
@@ -117,7 +117,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex items-start gap-3 border-b border-border bg-surface px-4 py-3 md:hidden">
               <Share className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-fg">Add Tinta to your Home Screen</p>
+                <p className="text-sm font-medium text-fg">Add Magdolna to your Home Screen</p>
                 <p className="mt-0.5 text-sm text-muted">
                   In Safari, tap Share, then Add to Home Screen. It opens like its own app.
                 </p>
@@ -130,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <main className="flex-1 px-4 py-8 pb-24 md:px-10 md:py-10 md:pb-10">
             {children}
             <footer className="mt-16 border-t border-border pt-6 text-xs text-subtle">
-              <p>Tinta · Hungarian field notes</p>
+              <p>Magdolna · Hungarian field notes</p>
               <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
                 <Link to="/privacy" className="hover:text-fg">
                   Privacy
@@ -138,7 +138,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Link to="/support" className="hover:text-fg">
                   Support
                 </Link>
-                <a href="https://github.com/rntschlr/tinta" className="hover:text-fg">
+                <a href="https://github.com/rntschlr/magdolna" className="hover:text-fg">
                   Source
                 </a>
               </p>
@@ -148,7 +148,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <nav
-        className="tinta-tabbar fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/95 backdrop-blur-sm md:hidden"
+        className="magdolna-tabbar fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/95 backdrop-blur-sm md:hidden"
         aria-label="Primary"
       >
         <div className="mx-auto grid max-w-7xl grid-cols-5">

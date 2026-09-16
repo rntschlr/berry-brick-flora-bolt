@@ -34,6 +34,6 @@ export const useProgress = create<ProgressState>()(
           quizAttempts: get().quizAttempts + 1,
         }),
     }),
-    { name: "tinta-progress" },
+    { name: "magdolna-progress" },
   ),
 );

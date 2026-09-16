@@ -9,7 +9,7 @@ function SupportPage() {
       <PageHeader
         kicker="Help"
         title="Support"
-        lead="Tinta is a Hungarian field notebook. If something is wrong, write and include the page you were on."
+        lead="Magdolna is a Hungarian field notebook. If something is wrong, write and include the page you were on."
       />
       <div className="space-y-4">
         <Paper>
@@ -23,9 +23,9 @@ function SupportPage() {
           <p className="text-xs tracking-[0.16em] text-primary uppercase">Source</p>
           <a
             className="mt-2 block font-medium text-fg"
-            href="https://github.com/rntschlr/tinta"
+            href="https://github.com/rntschlr/magdolna"
           >
-            github.com/rntschlr/tinta
+            github.com/rntschlr/magdolna
           </a>
           <p className="mt-2 text-sm text-muted">Open an issue for a bug or a missing ending.</p>
         </Paper>
