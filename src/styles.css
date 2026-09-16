@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", "Iowan Old Style", Palatino, serif;
+  --font-display: "Fraunces", "Iowan Old Style", Palatino, serif;
+
+  --color-bg: #f4efe4;
+  --color-bg-elevated: #ebe4d6;
+  --color-surface: #fffdf8;
+  --color-fg: #1a1612;
+  --color-muted: #6e665c;
+  --color-subtle: #8a8175;
+  --color-primary: #b33a26;
+  --color-primary-fg: #fffdf8;
+  --color-border: #d8d0c2;
+  --color-ink: #1a1612;
+  --color-ok: #2f5d3f;
+  --color-warn: #8a5a18;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  --shadow-border: 0 0 0 1px rgb(26 22 18 / 0.06), 0 1px 2px -1px rgb(26 22 18 / 0.06),
+    0 2px 4px 0 rgb(26 22 18 / 0.04);
+  --shadow-border-hover: 0 0 0 1px rgb(26 22 18 / 0.08), 0 1px 2px -1px rgb(26 22 18 / 0.08),
+    0 2px 4px 0 rgb(26 22 18 / 0.06);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-medium: 350ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+
+  .tinta-shell {
+    min-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .tinta-tabbar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  @media (display-mode: standalone) {
+    html,
+    body {
+      overscroll-behavior: none;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 22%, transparent);
+    color: var(--color-fg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
