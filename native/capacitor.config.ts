@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "me.johnkrentschler.tinta",
+  appId: "app.tinta.notes",
   appName: "Tinta",
   webDir: "www",
   backgroundColor: "#F4EFE4",

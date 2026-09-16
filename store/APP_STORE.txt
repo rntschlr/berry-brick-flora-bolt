@@ -12,7 +12,7 @@ Subtitle (30 characters max)
   Hungarian field notes
 
 Bundle ID
-  me.johnkrentschler.tinta
+  app.tinta.notes
 
 SKU
   tinta-ios
@@ -45,14 +45,14 @@ Keywords (100 characters, comma-separated)
   Hungarian,Magyar,grammar,cases,language,learn Hungarian,vowel harmony
 
 Support URL
-  https://tinta.johnkrentschler.me/support
-  (or the live URL + /support until the custom domain is on)
+  https://tinta.pages.dev/support
+  (replace with your own domain once it is live, e.g. https://tinta.app/support)
 
 Privacy policy URL
-  https://tinta.johnkrentschler.me/privacy
+  https://tinta.pages.dev/privacy
 
 Marketing URL
-  https://tinta.johnkrentschler.me
+  https://tinta.pages.dev
 
 What's New (1.0)
   First release: alphabet, cases, verbs, labs, and drills.
