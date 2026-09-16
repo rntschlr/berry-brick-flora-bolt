@@ -127,7 +127,23 @@ export function AppShell({ children }: { children: ReactNode }) {
               </Button>
             </div>
           ) : null}
-          <main className="flex-1 px-4 py-8 pb-24 md:px-10 md:py-10 md:pb-10">{children}</main>
+          <main className="flex-1 px-4 py-8 pb-24 md:px-10 md:py-10 md:pb-10">
+            {children}
+            <footer className="mt-16 border-t border-border pt-6 text-xs text-subtle">
+              <p>Tinta · Hungarian field notes</p>
+              <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                <Link to="/privacy" className="hover:text-fg">
+                  Privacy
+                </Link>
+                <Link to="/support" className="hover:text-fg">
+                  Support
+                </Link>
+                <a href="https://github.com/rntschlr/tinta" className="hover:text-fg">
+                  Source
+                </a>
+              </p>
+            </footer>
+          </main>
         </div>
       </div>
 

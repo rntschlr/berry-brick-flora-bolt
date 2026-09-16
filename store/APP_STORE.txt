@@ -1,0 +1,74 @@
+Tinta — App Store listing
+=========================
+
+I cannot submit this for you. Apple requires your Developer account,
+a Mac with Xcode, and you tapping Submit. Copy the fields below into
+App Store Connect after the first archive upload.
+
+Name
+  Tinta
+
+Subtitle (30 characters max)
+  Hungarian field notes
+
+Bundle ID
+  me.johnkrentschler.tinta
+
+SKU
+  tinta-ios
+
+Primary language
+  English (U.S.)
+
+Category
+  Education
+  Secondary: Reference
+
+Age rating
+  4+  (no user-generated content, no chat, no location)
+
+Price
+  Free
+
+Description
+  Tinta is a Hungarian grammar notebook for English speakers.
+
+  Learn the 40-letter alphabet, vowel harmony, the eighteen noun cases,
+  definite vs indefinite conjugation, possession, and the phrases you
+  actually need on the street. Interactive labs decline a noun or
+  conjugate a verb as you type. A twenty-question drill sits at the end.
+
+  Progress stays on this device: opened sheets, bookmarks, and drill
+  scores.
+
+Keywords (100 characters, comma-separated)
+  Hungarian,Magyar,grammar,cases,language,learn Hungarian,vowel harmony
+
+Support URL
+  https://tinta.johnkrentschler.me/support
+  (or the live URL + /support until the custom domain is on)
+
+Privacy policy URL
+  https://tinta.johnkrentschler.me/privacy
+
+Marketing URL
+  https://tinta.johnkrentschler.me
+
+What's New (1.0)
+  First release: alphabet, cases, verbs, labs, and drills.
+
+Review notes
+  No account. No demo login. Open Desk, tap Cases, type a noun in the
+  workbench, then run the Drill tab. All content is on-device.
+
+App Privacy (nutrition label)
+  Data Not Collected.
+
+Icon
+  store/icon-1024.png — 1024×1024, no transparency, no rounded corners.
+  Upload this as the App Store icon. Xcode will generate the rest.
+
+Screenshots you still have to take on an iPhone
+  6.7" (iPhone 15/16 Pro Max): Desk, Cases, Verb sheet, Workbenches, Drill
+  6.1" (iPhone 15/16): same five frames
+  Do not screenshot Safari chrome. Use the Home Screen app or the Xcode simulator.

@@ -20,7 +20,9 @@ import { Route as LabRouteImport } from './routes/lab'
 import { Route as PhrasesRouteImport } from './routes/phrases'
 import { Route as PossessionRouteImport } from './routes/possession'
 import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PronounsRouteImport } from './routes/pronouns'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as VerbsRouteImport } from './routes/verbs'
 import { Route as WordBuildingRouteImport } from './routes/word-building'
 import { Route as CasesSlugRouteImport } from './routes/cases.$slug'
@@ -80,9 +82,19 @@ const PracticeRoute = PracticeRouteImport.update({
   path: '/practice',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PronounsRoute = PronounsRouteImport.update({
   id: '/pronouns',
   path: '/pronouns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VerbsRoute = VerbsRouteImport.update({
@@ -113,7 +125,9 @@ export interface FileRoutesByFullPath {
   '/phrases': typeof PhrasesRoute
   '/possession': typeof PossessionRoute
   '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
   '/pronouns': typeof PronounsRoute
+  '/support': typeof SupportRoute
   '/verbs': typeof VerbsRoute
   '/word-building': typeof WordBuildingRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -130,7 +144,9 @@ export interface FileRoutesByTo {
   '/phrases': typeof PhrasesRoute
   '/possession': typeof PossessionRoute
   '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
   '/pronouns': typeof PronounsRoute
+  '/support': typeof SupportRoute
   '/verbs': typeof VerbsRoute
   '/word-building': typeof WordBuildingRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -148,7 +164,9 @@ export interface FileRoutesById {
   '/phrases': typeof PhrasesRoute
   '/possession': typeof PossessionRoute
   '/practice': typeof PracticeRoute
+  '/privacy': typeof PrivacyRoute
   '/pronouns': typeof PronounsRoute
+  '/support': typeof SupportRoute
   '/verbs': typeof VerbsRoute
   '/word-building': typeof WordBuildingRoute
   '/cases/$slug': typeof CasesSlugRoute
@@ -167,7 +185,9 @@ export interface FileRouteTypes {
     | '/phrases'
     | '/possession'
     | '/practice'
+    | '/privacy'
     | '/pronouns'
+    | '/support'
     | '/verbs'
     | '/word-building'
     | '/cases/$slug'
@@ -184,7 +204,9 @@ export interface FileRouteTypes {
     | '/phrases'
     | '/possession'
     | '/practice'
+    | '/privacy'
     | '/pronouns'
+    | '/support'
     | '/verbs'
     | '/word-building'
     | '/cases/$slug'
@@ -201,7 +223,9 @@ export interface FileRouteTypes {
     | '/phrases'
     | '/possession'
     | '/practice'
+    | '/privacy'
     | '/pronouns'
+    | '/support'
     | '/verbs'
     | '/word-building'
     | '/cases/$slug'
@@ -219,7 +243,9 @@ export interface RootRouteChildren {
   PhrasesRoute: typeof PhrasesRoute
   PossessionRoute: typeof PossessionRoute
   PracticeRoute: typeof PracticeRoute
+  PrivacyRoute: typeof PrivacyRoute
   PronounsRoute: typeof PronounsRoute
+  SupportRoute: typeof SupportRoute
   VerbsRoute: typeof VerbsRoute
   WordBuildingRoute: typeof WordBuildingRoute
 }
@@ -303,11 +329,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pronouns': {
       id: '/pronouns'
       path: '/pronouns'
       fullPath: '/pronouns'
       preLoaderRoute: typeof PronounsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/verbs': {
@@ -356,7 +396,9 @@ const rootRouteChildren: RootRouteChildren = {
   PhrasesRoute: PhrasesRoute,
   PossessionRoute: PossessionRoute,
   PracticeRoute: PracticeRoute,
+  PrivacyRoute: PrivacyRoute,
   PronounsRoute: PronounsRoute,
+  SupportRoute: SupportRoute,
   VerbsRoute: VerbsRoute,
   WordBuildingRoute: WordBuildingRoute,
 }

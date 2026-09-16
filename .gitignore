@@ -7,6 +7,7 @@ node_modules
 .tanstack
 .vercel
 .grok
+.wrangler
 dist
 artifacts
 screenshots
@@ -14,5 +15,9 @@ screenshots
 .node_modules.lock
 AGENTS.md
 startup.sh
+native/node_modules
+native/ios
+native/android
+native/www
 *.local
 .DS_Store

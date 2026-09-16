@@ -2,4 +2,4 @@
 
 Hungarian field notes for English speakers — grammar, cases, verbs, and the words you will actually use.
 
-This repo is the source for the hosted web app. Connect it to a Node host such as Vercel to put the site on the open web; GitHub Pages cannot run it.
+Live site: [tinta.johnkrentschler.me](https://tinta.johnkrentschler.me) once Cloudflare Pages is connected. App Store copy and the 1024 icon are in `store/`.

@@ -1,0 +1,20 @@
+{
+  "name": "tinta-ios",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Capacitor shell for Tinta. Build this on a Mac with Xcode — it will not compile in the Grok sandbox.",
+  "scripts": {
+    "sync": "cap sync ios",
+    "open": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.0",
+    "@capacitor/haptics": "^7.0.0",
+    "@capacitor/ios": "^7.4.0",
+    "@capacitor/splash-screen": "^7.0.0",
+    "@capacitor/status-bar": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.0"
+  }
+}
