@@ -1,6 +1,34 @@
 # Deploy Tinta, then connect your domain
 
-Tinta runs as a public, server-rendered Cloudflare Pages site. You can publish on the project's `pages.dev` address first and attach a purchased domain later. The notebook needs no database or sign-in service: bookmarks and progress remain in each visitor's browser.
+Tinta runs as a public, server-rendered Cloudflare Pages site. Publish on `tinta.pages.dev` first, then attach a purchased hostname. No database, no sign-in: bookmarks and progress stay in each visitor’s browser.
+
+## Buy a domain this hour
+
+Do this in Cloudflare + GitHub only. The GitHub repo is already wired for a custom origin: one variable, `VITE_PUBLIC_SITE_URL`, drives canonicals, sitemap, robots, and share cards.
+
+**Need it live in this hour?** Buy at [Cloudflare Registrar](https://domains.cloudflare.com/) in the same account as Pages. Registration is at-cost, DNS is already on Cloudflare, SSL is automatic.
+
+| If this name is free | Buy it | Why |
+| --- | --- | --- |
+| `tinta.dev` | Cloudflare Registrar | Best public-notebook URL. HTTPS forced. |
+| `tinta.ink` | Cloudflare Registrar | Literal: tinta = ink. |
+| `tintaval.com` | Cloudflare Registrar | Fallback if the short names are taken. |
+
+`tinta.com`, `tinta.app`, `tinta.page`, and `tinta.hu` are **taken**. `tinta.hu` belongs to TINTA Könyvkiadó (since 1999). Do not fight that.
+
+**Want `tintaval.hu`?** Buy at [DotRoll](https://admin.dotroll.com/) (search `tintaval`). Skip their hosting. Then point nameservers at Cloudflare. New `.hu` names sit in an **8-day public queue** before they resolve — so it cannot be the live URL this hour. Use `tinta.pages.dev` until it is.
+
+### After checkout (same hour, Cloudflare Registrar)
+
+1. Cloudflare dashboard → **Workers & Pages** → project **`tinta`** → **Custom domains** → add the hostname.
+2. Apex (`tintaval.com`) must be a zone in this Cloudflare account. Cloudflare writes the DNS record.
+3. GitHub → this repo → **Settings → Secrets and variables → Actions**:
+   - Secrets: `CLOUDFLARE_API_TOKEN` (Account / Cloudflare Pages / Edit), `CLOUDFLARE_ACCOUNT_ID`
+   - Variable: `VITE_PUBLIC_SITE_URL` = `https://your-new-domain` (no trailing slash)
+4. **Actions → Cloudflare Pages → Run workflow** on `main`.
+5. Open the new hostname. Set a 301 from `www` and later from `tinta.pages.dev` to the canonical host.
+
+Progress on `tinta.pages.dev` does **not** move to the new domain. Browser storage is per-origin.
 
 ## First publication
 

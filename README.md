@@ -6,7 +6,7 @@ A practical grammar notebook for learning the language around you: the alphabet,
 
 [![Build and checks](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml/badge.svg)](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml)
 
-[Explore the screenshots](#screenshots) · [Run locally](#local-development) · [Architecture](docs/architecture.md) · [Deploy & connect a domain](docs/deployment.md) · [Contribute](CONTRIBUTING.md)
+[Explore the screenshots](#screenshots) · [Run locally](#local-development) · [Architecture](docs/architecture.md) · [**Buy a domain this hour**](docs/deployment.md#buy-a-domain-this-hour) · [Contribute](CONTRIBUTING.md)
 
 <p align="center">
   <img src="public/og.jpg" alt="Tinta — Hungarian field notes, with a fountain pen on cream paper" width="960" />
