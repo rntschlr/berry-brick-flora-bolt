@@ -8,5 +8,5 @@ export const APP_MEANING = "tinta, ink";
 export const REPO_URL = "https://github.com/rntschlr/berry-brick-flora-bolt";
 export const SUPPORT_EMAIL = "johnkrentschler@icloud.com";
 export const THEME_COLOR = "#F4EFE4";
-/** Public origin after Cloudflare Pages project `tinta` is created. Override with VITE_PUBLIC_SITE_URL. */
+/** Canonical public origin. Override with VITE_PUBLIC_SITE_URL when changing domains. */
 export const SITE_ORIGIN = siteOrigin(import.meta.env?.VITE_PUBLIC_SITE_URL);

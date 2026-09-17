@@ -45,13 +45,13 @@ Keywords (100 characters, comma-separated)
   Hungarian,Magyar,grammar,cases,language,learn Hungarian,vowel harmony
 
 Support URL
-  https://tinta.pages.dev/support
+  https://tintas.app/support
 
 Privacy policy URL
-  https://tinta.pages.dev/privacy
+  https://tintas.app/privacy
 
 Marketing URL
-  https://tinta.pages.dev
+  https://tintas.app
 
 What's New (1.0)
   First release: alphabet, cases, verbs, labs, and drills.

@@ -4,7 +4,7 @@ import { siteOrigin, sitemapForOrigin } from "./site-config.mjs";
 
 test("custom domain accepts HTTPS origins and normalizes a trailing slash", () => {
   assert.equal(siteOrigin("https://learn.example.com/"), "https://learn.example.com");
-  assert.equal(siteOrigin(undefined), "https://tinta.pages.dev");
+  assert.equal(siteOrigin(undefined), "https://tintas.app");
   for (const bad of [
     "http://example.com",
     "https://a:b@example.com",

@@ -1,4 +1,4 @@
-export const DEFAULT_SITE_ORIGIN = "https://tinta.pages.dev";
+export const DEFAULT_SITE_ORIGIN = "https://tintas.app";
 
 /** @param {string | undefined} value */
 export function siteOrigin(value) {

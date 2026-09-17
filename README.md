@@ -6,7 +6,7 @@ A practical grammar notebook for learning the language around you: the alphabet,
 
 [![Build and checks](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml/badge.svg)](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml)
 
-[Explore the screenshots](#screenshots) · [Run locally](#local-development) · [Architecture](docs/architecture.md) · [**Buy a domain this hour**](docs/deployment.md#buy-a-domain-this-hour) · [Contribute](CONTRIBUTING.md)
+[Explore the screenshots](#screenshots) · [Run locally](#local-development) · [Architecture](docs/architecture.md) · [Deployment](docs/deployment.md) · [Contribute](CONTRIBUTING.md)
 
 <p align="center">
   <img src="public/og.jpg" alt="Tinta — Hungarian field notes, with a fountain pen on cream paper" width="960" />
@@ -78,13 +78,13 @@ The server renders pages and serves the application. Learning content lives in t
 
 The [architecture guide](docs/architecture.md) explains the boundaries, source layout, and what would be needed before adding a persistent backend.
 
-## Deployment & your future domain
+## Deployment
 
 The repository includes a Cloudflare Pages workflow. Pull requests run typechecking, lint, tests, a production build, and checks against the built server handler. Uploads are restricted to `main` and require deployment credentials.
 
-Follow the [deployment guide](docs/deployment.md) to create the Pages project, configure GitHub Actions, verify the live site, and connect a custom domain when you have one. Set the GitHub Actions repository variable **`VITE_PUBLIC_SITE_URL`** to your public HTTPS origin and rebuild when the domain changes.
+The canonical website address is [**tintas.app**](https://tintas.app). Cloudflare Pages project **`tinta`** serves the application, with `https://tinta-4pr.pages.dev` as its assigned Pages hostname. Follow the [deployment guide](docs/deployment.md) to configure the custom domain, verify publication, and manage releases. Keep the GitHub Actions repository variable **`VITE_PUBLIC_SITE_URL`** set to `https://tintas.app` and rebuild when the domain changes.
 
-The default configuration names `https://tinta.pages.dev`; that is a deployment target, not confirmation that a live site has been published. Browser progress belongs to its current origin, so moving to a custom domain starts a separate local notebook.
+Browser progress belongs to its current origin, so moving from the Pages hostname to the custom domain starts a separate local notebook.
 
 ## Project information
 
