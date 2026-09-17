@@ -16,9 +16,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
       - name: Build for Cloudflare
         env:
           NITRO_PRESET: cloudflare-pages
+          VITE_AUTH_ENABLED: "false"
+          VITE_PUBLIC_STANDALONE: "true"
+          VITE_SHIP_GROK_CHROME: "false"
         run: npm run build:cf
       - name: Deploy
         if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}

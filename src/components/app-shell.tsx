@@ -138,7 +138,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Link to="/support" className="hover:text-fg">
                   Support
                 </Link>
-                <a href="https://github.com/rntschlr/magdolna" className="hover:text-fg">
+                <a href="https://github.com/rntschlr/berry-brick-flora-bolt" className="hover:text-fg">
                   Source
                 </a>
               </p>

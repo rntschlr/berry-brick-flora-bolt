@@ -1,0 +1,52 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
+import { searchHits, type SearchHit } from "./search-core.ts";
+
+describe("searchHits", () => {
+  const index: SearchHit[] = [
+    { href: "/cases/inessive", title: "Inessive -ban/-ben", subtitle: "in / inside" },
+    { href: "/verbs", title: "Verbs", subtitle: "conjugation patterns" },
+    { href: "/lab", title: "ír — to write", subtitle: "írok, írsz, ír" },
+    { href: "/lab", title: "ír — to write", subtitle: "duplicate" },
+    { href: "/alphabet", title: "A  ·  a", subtitle: "alma — apple" },
+    { href: "/phrases", title: "Jó napot", subtitle: "Good day" },
+  ];
+
+  it("returns empty for blank query", () => {
+    assert.deepEqual(searchHits("   ", index), []);
+  });
+
+  it("ranks exact / prefix title matches above subtitle-only hits", () => {
+    const hits = searchHits("ír", index);
+    assert.ok(hits.length >= 1);
+    assert.equal(hits[0]?.title.startsWith("ír"), true);
+  });
+
+  it("matches case-insensitively on title and subtitle", () => {
+    const hits = searchHits("INESSIVE", index);
+    assert.ok(hits.some((h) => h.href === "/cases/inessive"));
+    const sub = searchHits("apple", index);
+    assert.ok(sub.some((h) => h.href === "/alphabet"));
+  });
+
+  it("dedupes by href+title", () => {
+    const hits = searchHits("ír — to write", index);
+    const keys = hits.map((h) => h.href + h.title);
+    assert.equal(new Set(keys).size, keys.length);
+    assert.equal(hits.filter((h) => h.title === "ír — to write").length, 1);
+  });
+
+  it("respects limit", () => {
+    const wide: SearchHit[] = Array.from({ length: 40 }, (_, i) => ({
+      href: `/x/${i}`,
+      title: `alpha ${i}`,
+      subtitle: "note",
+    }));
+    assert.equal(searchHits("alpha", wide, 5).length, 5);
+  });
+
+  it("prefers title start over loose includes", () => {
+    const hits = searchHits("ver", index);
+    assert.equal(hits[0]?.title, "Verbs");
+  });
+});

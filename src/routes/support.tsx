@@ -23,9 +23,9 @@ function SupportPage() {
           <p className="text-xs tracking-[0.16em] text-primary uppercase">Source</p>
           <a
             className="mt-2 block font-medium text-fg"
-            href="https://github.com/rntschlr/magdolna"
+            href="https://github.com/rntschlr/berry-brick-flora-bolt"
           >
-            github.com/rntschlr/magdolna
+            github.com/rntschlr/berry-brick-flora-bolt
           </a>
           <p className="mt-2 text-sm text-muted">Open an issue for a bug or a missing ending.</p>
         </Paper>

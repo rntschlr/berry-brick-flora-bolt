@@ -18,7 +18,7 @@ function PrivacyPage() {
           advertising.
         </p>
         <p>
-          The hosted site may be served through Grok, Cloudflare, or another
+          The hosted site may be served through Cloudflare or another
           operator you connect. Those operators may collect standard request
           logs (IP address, browser, pages opened) to keep the site running.
         </p>
