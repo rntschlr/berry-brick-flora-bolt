@@ -7,7 +7,6 @@ import { test } from "node:test";
 import { promisify } from "node:util";
 import {
   APP_ENV_REL_PATH,
-  PUBLIC_DEFAULT_APP_ENV,
   mergeAppEnv,
   parseAppEnv,
   projectRoot,
@@ -42,8 +41,8 @@ test("drops non-VITE keys, non-string values and malformed documents", () => {
   assert.deepEqual(parseAppEnv("null"), {});
 });
 
-test("a missing app-env.json defaults auth off for public sites", () => {
-  assert.deepEqual(readAppEnv(makeWorkspace()), { ...PUBLIC_DEFAULT_APP_ENV });
+test("a missing app-env.json is a clean no-op", () => {
+  assert.deepEqual(readAppEnv(makeWorkspace()), {});
 });
 
 test("reads the app env from a workspace", () => {
@@ -61,8 +60,7 @@ test("an explicit process-env override wins over the file", () => {
 });
 
 test("the template ships auth off", () => {
-  // Missing `.grok/app-env.json` (public checkout) uses public defaults.
-  assert.deepEqual(readAppEnv(projectRoot()), { ...PUBLIC_DEFAULT_APP_ENV });
+  assert.deepEqual(readAppEnv(projectRoot()), { VITE_AUTH_ENABLED: "false" });
 });
 
 test("vite loadEnv resolves the wrapped value", () => {

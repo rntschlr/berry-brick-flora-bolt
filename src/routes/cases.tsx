@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CASES, PLACE_ADVERBS, TRIADS } from "@/data/cases";
 import { PageHeader, Paper } from "@/components/page";
+import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/cases")({ component: CasesPage });
+export const Route = createFileRoute("/cases")({
+  component: CasesPage,
+  head: () =>
+    pageHead("Noun cases", "Eighteen Hungarian noun cases, the movement triads, and here/there/where."),
+});
 
 function CasesPage() {
   const grammatical = CASES.filter((c) => !c.triad);
@@ -25,7 +30,7 @@ function CasesPage() {
               <ul className="mt-4 space-y-2">
                 {trio.map((c) => (
                   <li key={c.id}>
-                    <Link to="/cases/$slug" params={{ slug: c.id }} className="block">
+                    <Link to="/cases/$slug" params={{ slug: c.id }} className="block min-h-11">
                       <span className="font-serif text-lg">{c.suffixes.join(" ")}</span>
                       <span className="ml-2 text-sm text-muted">{c.english}</span>
                     </Link>
@@ -41,12 +46,7 @@ function CasesPage() {
       <h2 className="mb-3 font-display text-2xl font-semibold">The other jobs</h2>
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
         {grammatical.map((c) => (
-          <Link
-            key={c.id}
-            to="/cases/$slug"
-            params={{ slug: c.id }}
-            className="rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] hover:shadow-[var(--shadow-border-hover)]"
-          >
+          <Link key={c.id} to="/cases/$slug" params={{ slug: c.id }} className="sheet-card p-5">
             <p className="font-display text-xl font-semibold">{c.name}</p>
             <p className="font-serif text-primary">{c.suffixes.join("  ")}</p>
             <p className="mt-1 text-sm text-muted">{c.english}</p>
@@ -57,7 +57,7 @@ function CasesPage() {
       <Paper>
         <h2 className="font-display text-xl font-semibold">Here / there / where also come in threes</h2>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[28rem] text-left text-sm">
+          <table className="w-full min-w-lg text-left text-sm">
             <thead>
               <tr className="border-b border-border text-xs tracking-wide text-muted uppercase">
                 <th className="py-2 font-medium">English</th>

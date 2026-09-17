@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { PageHeader, Paper, Hu } from "@/components/page";
 import { HarmonyLab } from "@/components/labs";
 
-export const Route = createFileRoute("/harmony")({ component: HarmonyPage });
+export const Route = createFileRoute("/harmony")({
+  component: HarmonyPage,
+  head: () => pageHead("Vowel harmony", "Back, front, and rounded vowels — the rule that runs the language."),
+});
 
 function HarmonyPage() {
   return (

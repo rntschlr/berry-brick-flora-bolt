@@ -3,30 +3,36 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { AppShell } from "@/components/app-shell";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { APP_DESCRIPTION, APP_NAME, SITE_ORIGIN, THEME_COLOR } from "@/lib/brand";
 import appCss from "../styles.css?url";
 
-const APP_NAME = "Magdolna";
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: APP_NAME,
+  alternateName: "tinta, ink",
+  description: APP_DESCRIPTION,
+  url: SITE_ORIGIN,
+  inLanguage: ["en", "hu"],
+});
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: APP_NAME },
-      { name: "description", content: "Hungarian field notes — grammar, cases, verbs, and the words you’ll actually use." },
-      { name: "theme-color", content: "#F4EFE4" },
+      { title: `${APP_NAME} — Hungarian field notes` },
+      { name: "description", content: APP_DESCRIPTION },
+      { name: "theme-color", content: THEME_COLOR },
+      { name: "application-name", content: APP_NAME },
+      { name: "apple-mobile-web-app-title", content: APP_NAME },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-180.png" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap",
-      },
     ],
   }),
   component: Root,
@@ -37,6 +43,7 @@ function Root() {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       </head>
       <body className="antialiased">
         <PreviewHostBridge />

@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { WORD_BUILDING } from "@/data/grammar";
 import { PageHeader, Paper } from "@/components/page";
 
-export const Route = createFileRoute("/word-building")({ component: WordBuildingPage });
+export const Route = createFileRoute("/word-building")({
+  component: WordBuildingPage,
+  head: () => pageHead("Word-building", "The suffix machinery behind Hungarian words."),
+});
 
 function WordBuildingPage() {
   return (

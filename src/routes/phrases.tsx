@@ -1,9 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { GREETINGS, INTRODUCTIONS, PHRASES } from "@/data/vocab";
 import { PageHeader, Paper, PairRow } from "@/components/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const Route = createFileRoute("/phrases")({ component: PhrasesPage });
+export const Route = createFileRoute("/phrases")({
+  component: PhrasesPage,
+  head: () => pageHead("How to say", "Hello, thank you, I love you, and the rest of the street."),
+});
 
 function PhrasesPage() {
   return (

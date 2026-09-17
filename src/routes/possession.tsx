@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { POSSESSION } from "@/data/grammar";
 import { PageHeader, Paper } from "@/components/page";
 
-export const Route = createFileRoute("/possession")({ component: PossessionPage });
+export const Route = createFileRoute("/possession")({
+  component: PossessionPage,
+  head: () => pageHead("Possession", "házam, van kutyám — marking what is yours."),
+});
 
 function PossessionPage() {
   return (

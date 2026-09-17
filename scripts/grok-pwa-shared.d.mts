@@ -15,12 +15,7 @@ export declare function renderInstallPageHtml(
 ): string;
 export declare function renderWebManifest(hostHeader: string | null | undefined): string;
 export declare function grokPwaHeadTags(appName?: string): Array<[string, string]>;
-export declare const APP_THEME_COLOR: string;
-export declare const APP_BACKGROUND_COLOR: string;
-export declare const PWA_ICON_180: string;
-export declare const PWA_MANIFEST_HREF: string;
-export declare function isPublicStandaloneBuild(): boolean;
-export declare function grokExtensionsScriptSrc(): string;
+export declare const GROK_EXTENSIONS_SCRIPT_SRC: string;
 export declare function readGrokProjectId(): string;
 export declare function readXCreator(): string;
 export declare function readXCreatorId(): string;

@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { LETTERS, LOAN_LETTERS, SOUND_NOTES } from "@/data/alphabet";
 import { PageHeader, Paper, Hu } from "@/components/page";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/alphabet")({ component: AlphabetPage });
+export const Route = createFileRoute("/alphabet")({
+  component: AlphabetPage,
+  head: () => pageHead("Alphabet", "Forty letters, the s/sz trap, and long vowels."),
+});
 
 function AlphabetPage() {
   const [active, setActive] = useState(LETTERS[0].glyph);
@@ -31,7 +35,7 @@ function AlphabetPage() {
                 )}
               >
                 <span className="font-display text-lg leading-none">{l.glyph}</span>
-                <span className="mt-1 text-[10px] opacity-70">{l.kind.startsWith("vowel") ? "v" : ""}</span>
+                <span className="mt-1 text-xs opacity-70">{l.kind.startsWith("vowel") ? "v" : ""}</span>
               </button>
             ))}
           </div>

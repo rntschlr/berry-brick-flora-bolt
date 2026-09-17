@@ -5,6 +5,13 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Build and deploy
@@ -26,6 +33,7 @@ jobs:
           VITE_AUTH_ENABLED: "false"
           VITE_PUBLIC_STANDALONE: "true"
           VITE_SHIP_GROK_CHROME: "false"
+          VITE_PUBLIC_SITE_URL: https://tinta.pages.dev
         run: npm run build:cf
       - name: Deploy
         if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
@@ -33,9 +41,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=magdolna
+          command: pages deploy dist --project-name=tinta
       - name: Secrets missing
         if: ${{ secrets.CLOUDFLARE_API_TOKEN == '' || secrets.CLOUDFLARE_ACCOUNT_ID == '' }}
         run: |
           echo "Add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID as Actions secrets, then re-run this workflow."
-          echo "Copy the same values used by rntschlr/jkr.me."
+          echo "Pages project is tinta → https://tinta.pages.dev after the first successful deploy."

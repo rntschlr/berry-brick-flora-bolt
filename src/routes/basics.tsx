@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import {
   COLOURS,
   COUNTRIES,
@@ -14,7 +15,10 @@ import {
 import { PageHeader, Paper, PairRow } from "@/components/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const Route = createFileRoute("/basics")({ component: BasicsPage });
+export const Route = createFileRoute("/basics")({
+  component: BasicsPage,
+  head: () => pageHead("Basics", "Numbers, colours, calendar, and Hungarian time of day."),
+});
 
 function PairSheet({ items }: { items: { hu: string; en: string; note?: string }[] }) {
   return (

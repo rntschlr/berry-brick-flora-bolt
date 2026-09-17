@@ -1,4 +1,4 @@
-/** Primary Hungarian névnap entries, month-indexed (0 = January), day-indexed (0 = 1st). */
+/** Primary Hungarian névnap entries, month-indexed (0 = January), day-indexed (0 = 1st). Given names only — not product branding. */
 export const NEVNAP: string[][] = [
   ["Fruzsina","Ábel","Genovéva","Titusz","Simon","Boldizsár","Attila","Gyöngyvér","Marcell","Melánia","Ágota","Ernő","Veronika","Bódog","Lóránt","Gusztáv","Antal","Piroska","Sára","Fábián","Ágnes","Vince","Zelma","Timót","Pál","Vanda","Angelika","Károly","Adél","Martina","Marcella"],
   ["Ignác","Karolina","Balázs","Ráhel","Ágota","Dorottya","Tódor","Aranka","Abigél","Elvira","Bertold","Lívia","Ella","Bálint","Kolos","Julianna","Donát","Bernadett","Zsuzsanna","Álmos","Eleonóra","Gerzson","Alfréd","Mátyás","Géza","Győző","Ákos","Elemér"],

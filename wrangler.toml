@@ -1,4 +1,4 @@
-name = "magdolna"
+name = "tinta"
 compatibility_date = "2026-09-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"

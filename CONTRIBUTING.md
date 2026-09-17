@@ -1,4 +1,4 @@
-# Contributing to Magdolna
+# Contributing to Tinta
 
 ## Prerequisites
 
@@ -33,13 +33,14 @@ NITRO_PRESET=cloudflare-pages npm run build:cf
 Local UI:
 
 ```bash
-npm run dev          # http://0.0.0.0:8080
+npm run dev
 # or after build:cf
-npm run preview      # http://127.0.0.1:8081
+npm run preview
 ```
 
 ## Pull requests
 
-- Keep the GitHub repo slug (`berry-brick-flora-bolt`); brand the product as **Magdolna**.
+- Keep the GitHub repo slug (`berry-brick-flora-bolt`); brand the product as **Tinta**.
 - Do not commit secrets, Cloudflare tokens, or `.grok/app-env.json`.
 - Prefer focused diffs: hygiene, domain logic, docs/screenshots — not cosmetic churn.
+- Hungarian name-day lists in `src/data/namedays.ts` keep real given names. That is not the product name.

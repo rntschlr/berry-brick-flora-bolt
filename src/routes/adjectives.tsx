@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { ADJECTIVES } from "@/data/grammar";
 import { PageHeader, Paper } from "@/components/page";
 
-export const Route = createFileRoute("/adjectives")({ component: AdjectivesPage });
+export const Route = createFileRoute("/adjectives")({
+  component: AdjectivesPage,
+  head: () => pageHead("Adjectives", "Comparatives, no agreement, and how Hungarian paints nouns."),
+});
 
 function AdjectivesPage() {
   return (

@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { PageHeader } from "@/components/page";
 import { QuizPanel } from "@/components/quiz-panel";
 
-export const Route = createFileRoute("/practice")({ component: PracticePage });
+export const Route = createFileRoute("/practice")({
+  component: PracticePage,
+  head: () => pageHead("Drill", "Twenty questions. Best score stays on this device."),
+});
 
 function PracticePage() {
   return (

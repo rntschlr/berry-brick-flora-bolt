@@ -1,37 +1,105 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { NAV } from "@/data/nav";
+import { ArrowRight } from "lucide-react";
+import { NAV, STUDY_PATH } from "@/data/nav";
 import { CASES, TRIADS } from "@/data/cases";
 import { namesForDate } from "@/data/namedays";
+import { pageHead } from "@/lib/seo";
 import { useProgress } from "@/lib/progress";
 import { HarmonyLab } from "@/components/labs";
-import { PageHeader, Paper, Hu } from "@/components/page";
+import { Hu, Paper } from "@/components/page";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+  component: Home,
+  head: () => pageHead(),
+});
+
+function continueTarget(seen: string[]) {
+  const last = [...seen].reverse().find((id) => id && id !== "desk");
+  if (!last) return null;
+  const nav = NAV.find((item) => item.id === last);
+  if (nav) return { href: nav.href, label: nav.label };
+  if (last.startsWith("case-")) {
+    const slug = last.slice(5);
+    const cas = CASES.find((c) => c.id === slug);
+    if (cas) return { href: `/cases/${slug}`, label: cas.name };
+  }
+  return null;
+}
 
 function Home() {
   const nev = namesForDate(new Date());
   const seen = useProgress((s) => s.seen);
   const bookmarks = useProgress((s) => s.bookmarks);
+  const quizBest = useProgress((s) => s.quizBest);
   const [ready, setReady] = useState(false);
   useEffect(() => setReady(true), []);
+  const resume = ready ? continueTarget(seen) : null;
   const sections = NAV.filter((n) => n.href !== "/");
 
   return (
     <div>
-      <PageHeader
-        kicker="Magyar desk"
-        title="A magyar nyelv nem nehéz. Csak más."
-        lead="Field notes for English speakers: the alphabet trap, vowel harmony, eighteen cases, two conjugations, and the phrases you need on the street. Search anything, then drill it."
-        id="desk"
-      />
+      <header className="mb-10 max-w-3xl">
+        <p className="mb-3 text-xs font-medium tracking-[0.18em] text-primary uppercase">
+          tinta, ink
+        </p>
+        <h1 lang="hu" className="font-display text-3xl font-semibold text-fg md:text-5xl">
+          A magyar nyelv nem nehéz. Csak más.
+        </h1>
+        <span className="mt-4 block h-px w-16 bg-primary" />
+        <p className="mt-5 max-w-2xl text-lg text-muted">
+          Field notes for English speakers: the alphabet trap, vowel harmony, eighteen cases, two
+          conjugations, and the phrases you need on the street. Search anything, then drill it.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Button asChild>
+            <Link to="/alphabet">
+              Start with the alphabet
+              <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link to="/practice">Open the drill</Link>
+          </Button>
+        </div>
+      </header>
+
+      <div className="mb-10 grid max-w-xl grid-cols-3 gap-3">
+        {[
+          { form: "házba", en: "into the house" },
+          { form: "házban", en: "in the house" },
+          { form: "házból", en: "out of the house" },
+        ].map((row) => (
+          <Link key={row.form} to="/cases" className="sheet-card px-3 py-4 text-center">
+            <span lang="hu" className="block font-serif text-xl text-fg md:text-2xl">
+              {row.form}
+            </span>
+            <span className="mt-1 block text-xs text-muted">{row.en}</span>
+          </Link>
+        ))}
+      </div>
+
+      {resume ? (
+        <Link
+          to={resume.href}
+          className="sheet-card mb-8 flex items-center justify-between gap-4 p-5"
+        >
+          <span>
+            <span className="block text-xs font-medium tracking-[0.16em] text-primary uppercase">
+              Continue
+            </span>
+            <span className="mt-1 block font-display text-xl font-semibold text-fg">{resume.label}</span>
+            <span className="mt-1 block text-sm text-muted">Pick up the last sheet you opened.</span>
+          </span>
+          <ArrowRight className="size-5 shrink-0 text-primary" />
+        </Link>
+      ) : null}
 
       <div className="mb-10 grid gap-4 md:grid-cols-3">
         <Paper>
           <p className="text-xs tracking-[0.16em] text-primary uppercase">Today</p>
-          <p className="mt-2 font-display text-2xl">
-            {nev.names.length ? nev.names.join(", ") : "—"}
-          </p>
+          <p className="mt-2 font-display text-2xl">{nev.names.length ? nev.names.join(", ") : "—"}</p>
           <p className="mt-1 text-sm text-muted">Névnap · {nev.label}. Wish someone boldog névnapot.</p>
         </Paper>
         <Paper>
@@ -42,26 +110,37 @@ function Home() {
           </p>
         </Paper>
         <Paper>
-          <p className="text-xs tracking-[0.16em] text-primary uppercase">Start here</p>
-          <p className="mt-2 text-sm text-muted">
-            Learn <Hu>s</Hu> vs <Hu>sz</Hu>, then harmony, then the three movement triads. Verbs wait patiently.
+          <p className="text-xs tracking-[0.16em] text-primary uppercase">Best drill</p>
+          <p className="mt-2 font-display text-2xl tabular-nums">{ready ? quizBest : "—"}</p>
+          <p className="mt-1 text-sm text-muted">
+            Twenty questions. Learn <Hu>s</Hu> vs <Hu>sz</Hu> first if you are new.
           </p>
-          <Link to="/alphabet" className="mt-3 inline-block text-sm font-medium text-primary">
-            Open the alphabet →
-          </Link>
         </Paper>
       </div>
+
+      <section className="mb-12">
+        <h2 className="mb-4 font-display text-2xl font-semibold">A path through the notebook</h2>
+        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {STUDY_PATH.map((step, i) => (
+            <li key={step.id}>
+              <Link to={step.href} className="sheet-card flex h-full flex-col p-5">
+                <span className="text-xs tabular-nums tracking-[0.16em] text-subtle">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="mt-2 font-display text-xl font-semibold">{step.label}</span>
+                <span className="mt-1 text-sm text-muted">{step.blurb}</span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <h2 className="mb-4 font-display text-2xl font-semibold">The desk</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {sections.map((s) => (
-              <Link
-                key={s.id}
-                to={s.href}
-                className="rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] transition-[box-shadow] duration-[var(--motion-quick)] hover:shadow-[var(--shadow-border-hover)]"
-              >
+              <Link key={s.id} to={s.href} className="sheet-card p-5">
                 <p className="font-display text-xl font-semibold">{s.label}</p>
                 <p className="mt-1 text-sm text-muted">{s.blurb}</p>
               </Link>

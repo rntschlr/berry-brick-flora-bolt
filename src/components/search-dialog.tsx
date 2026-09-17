@@ -1,19 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { Search } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { buildSearchIndex, searchHits } from "@/lib/search";
+import { cn } from "@/lib/utils";
 
 export function SearchDialog() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
+  const [active, setActive] = useState(0);
   const router = useRouter();
   const index = useMemo(() => buildSearchIndex(), []);
   const hits = searchHits(q, index);
@@ -29,6 +26,22 @@ export function SearchDialog() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    setActive(0);
+  }, [q]);
+
+  const go = (href: string) => {
+    setOpen(false);
+    setQ("");
+    const [path, hash] = href.split("#");
+    router.history.push(path ?? "/");
+    if (hash) {
+      requestAnimationFrame(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  };
+
   return (
     <>
       <Button
@@ -37,8 +50,9 @@ export function SearchDialog() {
         onClick={() => setOpen(true)}
       >
         <Search className="size-4" />
-        Search notes
-        <kbd className="ml-auto hidden rounded border border-border px-1.5 text-[10px] text-subtle md:inline">
+        <span className="hidden sm:inline">Search notes</span>
+        <span className="sm:hidden">Search</span>
+        <kbd className="ml-auto hidden rounded-sm border border-border px-1.5 text-xs text-subtle md:inline">
           ⌘K
         </kbd>
       </Button>
@@ -53,27 +67,33 @@ export function SearchDialog() {
               placeholder="ház, accusative, szeretlek, s/sz…"
               value={q}
               onChange={(e) => setQ(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowDown") {
+                  e.preventDefault();
+                  setActive((i) => Math.min(i + 1, Math.max(hits.length - 1, 0)));
+                } else if (e.key === "ArrowUp") {
+                  e.preventDefault();
+                  setActive((i) => Math.max(i - 1, 0));
+                } else if (e.key === "Enter" && hits[active]) {
+                  e.preventDefault();
+                  go(hits[active].href);
+                }
+              }}
             />
           </div>
           <ul className="max-h-80 overflow-auto px-2 pb-3">
             {q && hits.length === 0 ? (
               <li className="px-3 py-6 text-sm text-muted">Nothing matches. Try a suffix or an English gloss.</li>
             ) : null}
-            {hits.map((h) => (
+            {hits.map((h, i) => (
               <li key={h.href + h.title}>
                 <button
-                  className="w-full rounded-lg px-3 py-2.5 text-left hover:bg-bg-elevated"
-                  onClick={() => {
-                    setOpen(false);
-                    setQ("");
-                    const [path, hash] = h.href.split("#");
-                    router.history.push(path ?? "/");
-                    if (hash) {
-                      requestAnimationFrame(() => {
-                        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
-                      });
-                    }
-                  }}
+                  className={cn(
+                    "w-full rounded-lg px-3 py-2.5 text-left transition-colors duration-[var(--motion-quick)] ease-[var(--ease-out)]",
+                    i === active ? "bg-bg-elevated" : "hover:bg-bg-elevated",
+                  )}
+                  onMouseEnter={() => setActive(i)}
+                  onClick={() => go(h.href)}
                 >
                   <p className="font-serif text-base text-fg">{h.title}</p>
                   <p className="line-clamp-1 text-xs text-muted">{h.subtitle}</p>

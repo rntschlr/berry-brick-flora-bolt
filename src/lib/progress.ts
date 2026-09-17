@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+export const PROGRESS_KEY = "tinta-progress";
+const LEGACY_PROGRESS_KEYS = ["magdolna-progress"] as const;
 
 export type ProgressSnapshot = {
   seen: string[];
@@ -30,6 +33,30 @@ export function recordQuizStats(
   };
 }
 
+function progressStorage() {
+  if (typeof window === "undefined") {
+    return {
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {},
+    };
+  }
+  try {
+    if (!window.localStorage.getItem(PROGRESS_KEY)) {
+      for (const key of LEGACY_PROGRESS_KEYS) {
+        const legacy = window.localStorage.getItem(key);
+        if (legacy) {
+          window.localStorage.setItem(PROGRESS_KEY, legacy);
+          break;
+        }
+      }
+    }
+  } catch {
+    // private mode / blocked storage
+  }
+  return window.localStorage;
+}
+
 type ProgressState = ProgressSnapshot & {
   markSeen: (id: string) => void;
   toggleBookmark: (id: string) => void;
@@ -47,6 +74,9 @@ export const useProgress = create<ProgressState>()(
       toggleBookmark: (id) => set({ bookmarks: toggleBookmarkList(get().bookmarks, id) }),
       recordQuiz: (score) => set(recordQuizStats(get().quizBest, get().quizAttempts, score)),
     }),
-    { name: "magdolna-progress" },
+    {
+      name: PROGRESS_KEY,
+      storage: createJSONStorage(() => progressStorage()),
+    },
   ),
 );

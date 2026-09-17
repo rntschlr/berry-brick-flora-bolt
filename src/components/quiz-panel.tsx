@@ -35,10 +35,12 @@ export function QuizPanel() {
     return (
       <Paper className="mx-auto max-w-xl text-center">
         <p className="text-xs tracking-[0.16em] text-primary uppercase">Drill complete</p>
-        <p className="mt-3 font-display text-5xl font-semibold">
+        <p className="mt-3 font-display text-5xl font-semibold tabular-nums">
           {score}/{total}
         </p>
-        <p className="mt-2 text-muted">Best on this desk: {Math.max(best, score)}/{total}</p>
+        <p className="mt-2 text-muted">
+          Best on this desk: {Math.max(best, score)}/{total}
+        </p>
         <Button
           className="mt-6"
           onClick={() => {
@@ -64,6 +66,12 @@ export function QuizPanel() {
           Score {score} · {q.tag}
         </p>
       </div>
+      <div className="mt-3 h-1 overflow-hidden rounded-full bg-bg-elevated" aria-hidden>
+        <div
+          className="h-full bg-primary transition-[width] duration-[var(--motion-fast)] ease-[var(--ease-out)]"
+          style={{ width: `${((i + (picked === null ? 0 : 1)) / total) * 100}%` }}
+        />
+      </div>
       <h2 className="mt-5 font-display text-2xl font-semibold md:text-3xl">{q.prompt}</h2>
       <ul className="mt-6 flex flex-col gap-2">
         {q.choices.map((c, idx) => {
@@ -75,7 +83,7 @@ export function QuizPanel() {
                 disabled={picked !== null}
                 onClick={() => setPicked(idx)}
                 className={cn(
-                  "min-h-12 w-full rounded-xl px-4 py-3 text-left text-sm shadow-[var(--shadow-border)]",
+                  "min-h-12 w-full rounded-xl px-4 py-3 text-left text-sm shadow-[var(--shadow-border)] transition-colors duration-[var(--motion-quick)] ease-[var(--ease-out)]",
                   !show && "bg-bg-elevated hover:bg-surface",
                   show && correct && "bg-ok/10 text-ok",
                   show && !correct && idx === picked && "bg-primary/10 text-primary",

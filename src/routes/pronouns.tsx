@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { PRONOUNS } from "@/data/grammar";
 import { PageHeader, Paper } from "@/components/page";
 
-export const Route = createFileRoute("/pronouns")({ component: PronounsPage });
+export const Route = createFileRoute("/pronouns")({
+  component: PronounsPage,
+  head: () => pageHead("Pronouns", "Drop them, case them, and the -lak/-lek form."),
+});
 
 function PronounsPage() {
   return (

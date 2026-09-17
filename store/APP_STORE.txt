@@ -1,21 +1,21 @@
-Magdolna — App Store listing
-============================
+Tinta — App Store listing
+=========================
 
 I cannot submit this for you. Apple requires your Developer account,
 a Mac with Xcode, and you tapping Submit. Copy the fields below into
 App Store Connect after the first archive upload.
 
 Name
-  Magdolna
+  Tinta
 
 Subtitle (30 characters max)
   Hungarian field notes
 
 Bundle ID
-  app.magdolna.notes
+  app.tinta.notes
 
 SKU
-  magdolna-ios
+  tinta-ios
 
 Primary language
   English (U.S.)
@@ -31,7 +31,7 @@ Price
   Free
 
 Description
-  Magdolna is a Hungarian grammar notebook for English speakers.
+  Tinta is a Hungarian grammar notebook for English speakers.
 
   Learn the 40-letter alphabet, vowel harmony, the eighteen noun cases,
   definite vs indefinite conjugation, possession, and the phrases you
@@ -45,14 +45,13 @@ Keywords (100 characters, comma-separated)
   Hungarian,Magyar,grammar,cases,language,learn Hungarian,vowel harmony
 
 Support URL
-  https://magdolna.pages.dev/support
-  (replace with your own domain once it is live)
+  https://tinta.pages.dev/support
 
 Privacy policy URL
-  https://magdolna.pages.dev/privacy
+  https://tinta.pages.dev/privacy
 
 Marketing URL
-  https://magdolna.pages.dev
+  https://tinta.pages.dev
 
 What's New (1.0)
   First release: alphabet, cases, verbs, labs, and drills.

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tinta.pages.dev/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://tinta.pages.dev/alphabet</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/harmony</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/nominative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/accusative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/dative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/instrumental</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/causal-final</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/translative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/terminative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/temporal</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/illative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/inessive</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/elative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/sublative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/superessive</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/delative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/allative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/adessive</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/ablative</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/cases/genitive</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/verbs</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/possession</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/pronouns</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/adjectives</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/word-building</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/grammar</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/basics</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/phrases</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/lab</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/practice</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/privacy</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://tinta.pages.dev/support</loc><changefreq>yearly</changefreq></url>
+</urlset>

@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { COVERBS, DEF_PRESENT, INDEF_PRESENT, VERB_TOPICS } from "@/data/verbs";
 import { PageHeader, Paper } from "@/components/page";
 
-export const Route = createFileRoute("/verbs")({ component: VerbsPage });
+export const Route = createFileRoute("/verbs")({
+  component: VerbsPage,
+  head: () => pageHead("Verbs", "Indefinite vs definite, coverbs, and the conjugator."),
+});
 
 function EndingTable({
   title,

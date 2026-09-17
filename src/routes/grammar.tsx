@@ -1,9 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { HOGY, NEGATIVES, PLURALS, POSTPOSITIONS, SYNTAX, VAN } from "@/data/grammar";
 import { PageHeader, Paper } from "@/components/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const Route = createFileRoute("/grammar")({ component: GrammarPage });
+export const Route = createFileRoute("/grammar")({
+  component: GrammarPage,
+  head: () => pageHead("Syntax", "van, plurals, word order, and the extras that keep coming up."),
+});
 
 function Block({
   title,

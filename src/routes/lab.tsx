@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { CaseLab, Conjugator, HarmonyLab } from "@/components/labs";
 import { PageHeader } from "@/components/page";
 
-export const Route = createFileRoute("/lab")({ component: LabPage });
+export const Route = createFileRoute("/lab")({
+  component: LabPage,
+  head: () => pageHead("Workbenches", "Decline a noun or conjugate a verb as you type."),
+});
 
 function LabPage() {
   return (

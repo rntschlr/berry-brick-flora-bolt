@@ -1,6 +1,7 @@
 {
-  "name": "Magdolna",
-  "short_name": "Magdolna",
+  "name": "Tinta",
+  "short_name": "Tinta",
+  "description": "Hungarian field notes for English speakers",
   "id": "/",
   "start_url": "/",
   "scope": "/",

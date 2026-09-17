@@ -145,23 +145,7 @@ function authPopupPlugin(): Plugin {
 // `0.0.0.0:8080` is the live-preview contract — don't change host/port.
 // The dev server starts once `src/router.tsx` and `src/routes/` exist — see
 // AGENTS.md § "First scaffold".
-function resolvePublicStandaloneBake(): "1" | "0" {
-  const ship = String(process.env.VITE_SHIP_GROK_CHROME ?? "").trim().toLowerCase();
-  if (ship === "true" || ship === "1") return "0";
-  const preset = String(process.env.NITRO_PRESET ?? "").toLowerCase();
-  if (preset.includes("cloudflare")) return "1";
-  const standalone = String(process.env.VITE_PUBLIC_STANDALONE ?? "").trim().toLowerCase();
-  if (standalone === "false" || standalone === "0") return "0";
-  // Default: public Magdolna — bake Grok chrome off into the worker.
-  return "1";
-}
-
 export default defineConfig(({ command, isPreview }) => ({
-  define: {
-    "process.env.MAGDOLNA_PUBLIC_STANDALONE_BAKED": JSON.stringify(
-      resolvePublicStandaloneBake(),
-    ),
-  },
   server: {
     host: "0.0.0.0",
     port: 8080,

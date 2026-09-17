@@ -1,9 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CASES } from "@/data/cases";
 import { BackLink, PageHeader, Paper } from "@/components/page";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/cases/$slug")({
   component: CaseDetail,
+  head: ({ params }) => {
+    const cas = CASES.find((c) => c.id === params.slug);
+    return pageHead(cas ? cas.name : "Case", cas?.summary ?? "Hungarian noun case sheet.");
+  },
 });
 
 function CaseDetail() {

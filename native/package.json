@@ -1,8 +1,8 @@
 {
-  "name": "magdolna-ios",
+  "name": "tinta-ios",
   "private": true,
   "version": "1.0.0",
-  "description": "Capacitor shell for Magdolna. Build this on a Mac with Xcode — it will not compile in the Grok sandbox.",
+  "description": "Capacitor shell for Tinta. Build this on a Mac with Xcode — it will not compile in the Grok sandbox.",
   "scripts": {
     "sync": "cap sync ios",
     "open": "cap open ios"

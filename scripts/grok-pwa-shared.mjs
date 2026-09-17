@@ -6,36 +6,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const DEFAULT_APP_NAME = "Magdolna";
+export const DEFAULT_APP_NAME = "Grok App";
 export const OG_SERVICE_URL_DEFAULT = "https://og.grok.me";
 export const OG_SITE_REL_PATH = "src/lib/og/site.json";
-/** Cream theme aligned with `src/routes/__root.tsx`. */
-export const APP_THEME_COLOR = "#F4EFE4";
-export const APP_BACKGROUND_COLOR = "#F4EFE4";
-export const PWA_ICON_180 = "/icon-180.png";
-export const PWA_MANIFEST_HREF = "/manifest.webmanifest";
-
-/**
- * True for Cloudflare / public standalone builds. When set, skip Grok
- * extensions.js and related platform chrome so visitors never load grok.com.
- *
- * Defaults to public (no Grok chrome). Opt in to Grok chrome only with
- * `VITE_SHIP_GROK_CHROME=true` (Grok sandbox). Cloudflare builds also bake
- * `MAGDOLNA_PUBLIC_STANDALONE_BAKED=1` via Vite define so the worker stays gated
- * even without runtime env.
- */
-export function isPublicStandaloneBuild() {
-  const baked = String(process.env?.MAGDOLNA_PUBLIC_STANDALONE_BAKED ?? "").trim();
-  if (baked === "1") return true;
-  const ship = String(process.env?.VITE_SHIP_GROK_CHROME ?? "").trim().toLowerCase();
-  if (ship === "true" || ship === "1") return false;
-  const preset = String(process.env?.NITRO_PRESET ?? "").toLowerCase();
-  if (preset.includes("cloudflare")) return true;
-  const standalone = String(process.env?.VITE_PUBLIC_STANDALONE ?? "").trim().toLowerCase();
-  if (standalone === "false" || standalone === "0") return false;
-  // Magdolna is a public standalone site — skip Grok chrome by default.
-  return true;
-}
 
 const SHARE_META_KEYS = new Set([
   "og:title",
@@ -194,22 +167,12 @@ export function renderWebManifest(hostHeader) {
       start_url: "/",
       scope: "/",
       display: "standalone",
-      background_color: APP_BACKGROUND_COLOR,
-      theme_color: APP_THEME_COLOR,
+      background_color: "#000000",
+      theme_color: "#000000",
       icons: [
         {
-          src: PWA_ICON_180,
+          src: "/__grok/icon-180.png",
           sizes: "180x180",
-          type: "image/png",
-        },
-        {
-          src: "/icon-192.png",
-          sizes: "192x192",
-          type: "image/png",
-        },
-        {
-          src: "/icon-512.png",
-          sizes: "512x512",
           type: "image/png",
         },
       ],
@@ -223,24 +186,21 @@ export function grokPwaHeadTags(appName = DEFAULT_APP_NAME) {
   return [
     // Standalone display comes from the manifest ("display": "standalone");
     // the legacy *-web-app-capable metas it replaces are deliberately absent.
-    ["manifest", `<link rel="manifest" href="${PWA_MANIFEST_HREF}">`],
-    ["apple-touch-icon", `<link rel="apple-touch-icon" href="${PWA_ICON_180}">`],
+    ["manifest", '<link rel="manifest" href="/__grok/manifest.webmanifest">'],
+    ["apple-touch-icon", '<link rel="apple-touch-icon" href="/__grok/icon-180.png">'],
     [
       "apple-mobile-web-app-title",
       `<meta name="apple-mobile-web-app-title" content="${escapeHtml(appName)}">`,
     ],
     [
       "apple-mobile-web-app-status-bar-style",
-      '<meta name="apple-mobile-web-app-status-bar-style" content="default">',
+      '<meta name="apple-mobile-web-app-status-bar-style" content="black">',
     ],
-    ["theme-color", `<meta name="theme-color" content="${APP_THEME_COLOR}">`],
+    ["theme-color", '<meta name="theme-color" content="#000000">'],
   ];
 }
 
-/** Always empty on Magdolna — public site must never load grok.com scripts. */
-export function grokExtensionsScriptSrc() {
-  return "";
-}
+export const GROK_EXTENSIONS_SCRIPT_SRC = "https://grok.com/grok-app-builder/extensions.js";
 
 export function readGrokProjectId() {
   const fromProcess = typeof process !== "undefined" ? process.env?.VITE_PROJECT_ID : "";
@@ -267,12 +227,19 @@ export function grokXCreatorHeadTags(creator = readXCreator(), creatorId = readX
   ];
 }
 
-/**
- * Platform "Created with Grok" banner. Permanently no-op for Magdolna's public
- * Cloudflare launch — visitors must never load grok.com scripts or metas.
- */
-export function grokExtensionsHeadTags(_projectId = readGrokProjectId()) {
-  return [];
+/** Platform "Created with Grok" banner — injected into every HTML document. */
+export function grokExtensionsHeadTags(projectId = readGrokProjectId()) {
+  const id = escapeHtml(projectId);
+  const tags = [];
+  if (projectId) {
+    tags.push(`<meta name="grok-project-id" content="${id}">`);
+  }
+  tags.push(
+    `<script src="${GROK_EXTENSIONS_SCRIPT_SRC}"${
+      projectId ? ` data-project-id="${id}"` : ""
+    } defer></script>`,
+  );
+  return tags;
 }
 
 export function readOgSite(cwd = process.cwd()) {
@@ -457,7 +424,7 @@ export function normalizeHeadContext(ctx = {}) {
 
 export function injectGrokPwaHead(html, ctx = {}) {
   if (typeof html !== "string") return html;
-  const { site, creator, creatorId, host, cwd } = normalizeHeadContext(ctx);
+  const { site, projectId, creator, creatorId, host, cwd } = normalizeHeadContext(ctx);
   const documentTitle = titleFromDocument(html);
   const appName = resolveOgTitle(
     site,
@@ -469,18 +436,8 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   const missing = grokPwaHeadTags(appName)
     .filter(([key]) => {
-      if (key === "manifest") {
-        return (
-          !next.includes(`href="${PWA_MANIFEST_HREF}"`) &&
-          !next.includes('href="/__grok/manifest.webmanifest"')
-        );
-      }
-      if (key === "apple-touch-icon") {
-        return (
-          !next.includes(`href="${PWA_ICON_180}"`) &&
-          !next.includes('href="/__grok/icon-180.png"')
-        );
-      }
+      if (key === "manifest") return !next.includes('href="/__grok/manifest.webmanifest"');
+      if (key === "apple-touch-icon") return !next.includes('href="/__grok/icon-180.png"');
       return !next.includes(`name="${key}"`);
     })
     .map(([, tag]) => tag);
@@ -490,7 +447,18 @@ export function injectGrokPwaHead(html, ctx = {}) {
     grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
   );
 
-  // Grok extensions / project-id chrome is permanently disabled for Magdolna.
+  if (!next.includes("/grok-app-builder/extensions.js")) {
+    missing.push(...grokExtensionsHeadTags(projectId));
+  } else if (projectId && !next.includes('name="grok-project-id"')) {
+    missing.push(`<meta name="grok-project-id" content="${escapeHtml(projectId)}">`);
+  }
+  if (
+    projectId &&
+    !next.includes('property="grok:app_id"') &&
+    !next.includes("property='grok:app_id'")
+  ) {
+    missing.push(`<meta property="grok:app_id" content="${escapeHtml(projectId)}">`);
+  }
   const creatorTags = grokXCreatorHeadTags(creator, creatorId);
   if (creatorTags.length > 0) {
     const hasCreator =

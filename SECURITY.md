@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Magdolna is distributed as this repository’s `main` branch (Cloudflare Pages project `magdolna`). Only the latest `main` receives fixes.
+Tinta is distributed as this repository’s `main` branch (Cloudflare Pages project `tinta`). Only the latest `main` receives fixes.
 
 ## Reporting a vulnerability
 
@@ -16,6 +16,6 @@ You can expect an acknowledgement within a few days. Please do **not** open a pu
 
 ## Scope notes
 
-- Progress data is stored **on-device** (localStorage). Magdolna does not require an account for the public grammar notebook.
+- Progress data is stored **on-device** (localStorage). Tinta does not require an account for the public grammar notebook.
 - Auth is **disabled** for public Cloudflare builds (`VITE_AUTH_ENABLED=false`). Preview OAuth secrets must come from the environment — there is no hardcoded client secret in the repo.
 - Do not invent or commit Cloudflare API tokens or OAuth client secrets.
