@@ -64,6 +64,8 @@ export default async function grokPwaMiddleware(
   event: GrokPwaEvent,
   next: () => unknown | Promise<unknown>,
 ): Promise<unknown> {
+  if (import.meta.env.VITE_PUBLIC_STANDALONE !== "false") return next();
+
   const method = (event.req.method ?? "GET").toUpperCase();
   if (method !== "GET") return next();
 

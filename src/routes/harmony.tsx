@@ -5,7 +5,7 @@ import { HarmonyLab } from "@/components/labs";
 
 export const Route = createFileRoute("/harmony")({
   component: HarmonyPage,
-  head: () => pageHead("Vowel harmony", "Back, front, and rounded vowels — the rule that runs the language."),
+  head: ({ match }) => pageHead("Vowel harmony", "Back, front, and rounded vowels — the rule that runs the language.", match.pathname),
 });
 
 function HarmonyPage() {

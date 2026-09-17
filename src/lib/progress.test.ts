@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { markSeenList, recordQuizStats, toggleBookmarkList } from "./progress.ts";
+import { markSeenList, recordQuizStats, toggleBookmarkList, safeStorage } from "./progress.ts";
 
 describe("markSeenList", () => {
   it("appends a new id", () => {
@@ -34,5 +34,33 @@ describe("recordQuizStats", () => {
     assert.deepEqual(recordQuizStats(2, 0, 3.9), { quizBest: 3, quizAttempts: 1 });
     assert.deepEqual(recordQuizStats(2, 0, Number.NaN), { quizBest: 2, quizAttempts: 1 });
     assert.deepEqual(recordQuizStats(0, 0, -4), { quizBest: 0, quizAttempts: 1 });
+  });
+});
+
+describe("progress resilience", () => {
+  it("moves revisited sheets to the end without inflating the count", () => {
+    assert.deepEqual(markSeenList(["alphabet", "verbs"], "alphabet"), ["verbs", "alphabet"]);
+  });
+  it("survives a blocked localStorage getter", () => {
+    const storage = safeStorage(() => {
+      throw new Error("SecurityError");
+    });
+    assert.equal(storage.getItem("progress"), null);
+    assert.doesNotThrow(() => storage.setItem("progress", "value"));
+    assert.doesNotThrow(() => storage.removeItem("progress"));
+  });
+  it("survives quota failures after successful reads", () => {
+    const storage = safeStorage(
+      () =>
+        ({
+          getItem: () => "saved",
+          setItem: () => {
+            throw new Error("QuotaExceededError");
+          },
+          removeItem: () => {},
+        }) as unknown as Storage,
+    );
+    assert.equal(storage.getItem("progress"), "saved");
+    assert.doesNotThrow(() => storage.setItem("progress", "new"));
   });
 });

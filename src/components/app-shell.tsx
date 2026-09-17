@@ -4,6 +4,7 @@ import { BookOpen, Languages, Layers, LayoutGrid, Share, Target } from "lucide-r
 import { NAV_GROUPS } from "@/data/nav";
 import { namesForDate } from "@/data/namedays";
 import { APP_NAME, APP_TAGLINE, REPO_URL } from "@/lib/brand";
+import { browserStorage } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -42,9 +43,13 @@ function Brand({ compact = false }: { compact?: boolean }) {
     <Link to="/" className="flex min-h-11 items-center gap-3">
       <InkMark className="size-9 shrink-0" />
       <span className="min-w-0">
-        <span className="block font-display text-2xl font-semibold tracking-tight text-fg">{APP_NAME}</span>
+        <span className="block font-display text-2xl font-semibold tracking-tight text-fg">
+          {APP_NAME}
+        </span>
         {compact ? null : (
-          <span className="mt-0.5 block text-xs tracking-[0.14em] text-muted uppercase">{APP_TAGLINE}</span>
+          <span className="mt-0.5 block text-xs tracking-[0.14em] text-muted uppercase">
+            {APP_TAGLINE}
+          </span>
         )}
       </span>
     </Link>
@@ -57,7 +62,9 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
     <nav className="flex flex-col gap-5" aria-label="Notebook">
       {NAV_GROUPS.map((group) => (
         <div key={group.id}>
-          <p className="mb-1.5 px-3 text-xs font-medium tracking-[0.16em] text-subtle uppercase">{group.label}</p>
+          <p className="mb-1.5 px-3 text-xs font-medium tracking-[0.16em] text-subtle uppercase">
+            {group.label}
+          </p>
           <div className="flex flex-col gap-0.5">
             {group.items.map((item) => {
               const active = pathActive(pathname, item.href);
@@ -94,16 +101,17 @@ function useIosInstallHint() {
       /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1);
     const standalone =
       window.matchMedia("(display-mode: standalone)").matches ||
-      ("standalone" in navigator && Boolean((navigator as Navigator & { standalone?: boolean }).standalone));
+      ("standalone" in navigator &&
+        Boolean((navigator as Navigator & { standalone?: boolean }).standalone));
     const framed = window.self !== window.top;
     const dismissed =
-      window.localStorage.getItem(INSTALL_KEY) === "1" ||
-      window.localStorage.getItem(LEGACY_INSTALL_KEY) === "1";
+      browserStorage.getItem(INSTALL_KEY) === "1" ||
+      browserStorage.getItem(LEGACY_INSTALL_KEY) === "1";
     setShow(ios && !standalone && !framed && !dismissed);
   }, []);
 
   const dismiss = () => {
-    window.localStorage.setItem(INSTALL_KEY, "1");
+    browserStorage.setItem(INSTALL_KEY, "1");
     setShow(false);
   };
 
@@ -128,7 +136,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           {nev.names.length > 0 ? (
             <p className="mt-5 text-xs text-subtle">
               Névnap · {nev.label}
-              <span className="mt-0.5 block font-serif text-sm text-fg">{nev.names.join(", ")}</span>
+              <span className="mt-0.5 block font-serif text-sm text-fg">
+                {nev.names.join(", ")}
+              </span>
             </p>
           ) : null}
           <ScrollArea className="mt-6 flex-1">

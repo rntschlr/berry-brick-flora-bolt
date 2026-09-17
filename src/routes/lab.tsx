@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/page";
 
 export const Route = createFileRoute("/lab")({
   component: LabPage,
-  head: () => pageHead("Workbenches", "Decline a noun or conjugate a verb as you type."),
+  head: ({ match }) => pageHead("Workbenches", "Decline a noun or conjugate a verb as you type.", match.pathname),
 });
 
 function LabPage() {

@@ -5,7 +5,7 @@ import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/support")({
   component: SupportPage,
-  head: () => pageHead("Support", `Help with ${APP_NAME}, the Hungarian field notebook.`),
+  head: ({ match }) => pageHead("Support", `Help with ${APP_NAME}, the Hungarian field notebook.`, match.pathname),
 });
 
 function SupportPage() {

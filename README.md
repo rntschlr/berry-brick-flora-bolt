@@ -2,106 +2,98 @@
 
 **Hungarian field notes for English speakers.**
 
-*Tinta* is Hungarian for **ink**. This is a public grammar notebook: the alphabet trap, vowel harmony, eighteen noun cases, two conjugations, and the phrases you actually say on the street. No account. Progress stays on the device that opened it.
+A practical grammar notebook for learning the language around you: the alphabet, vowel harmony, eighteen noun cases, verb conjugations, and everyday phrases. _Tinta_ means **ink**. Open a sheet, try the workbench, then test what you learned.
 
-[![Cloudflare Pages](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml/badge.svg)](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml)
+[![Build and checks](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml/badge.svg)](https://github.com/rntschlr/berry-brick-flora-bolt/actions/workflows/cloudflare.yml)
 
-**Live:** [tinta.pages.dev](https://tinta.pages.dev) (after the first Cloudflare deploy)
+[Explore the screenshots](#screenshots) · [Run locally](#local-development) · [Architecture](docs/architecture.md) · [Deploy & connect a domain](docs/deployment.md) · [Contribute](CONTRIBUTING.md)
 
 <p align="center">
-  <img src="public/og.jpg" alt="Tinta — Hungarian field notes" width="720" />
+  <img src="public/og.jpg" alt="Tinta — Hungarian field notes, with a fountain pen on cream paper" width="960" />
 </p>
 
-The GitHub slug (`berry-brick-flora-bolt`) is the scaffold export name. The product is **Tinta**.
+## The notebook
 
-## What’s inside
+| Feature                 | What it does                                                                                 |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| Your desk               | A six-step learning path, today's Hungarian name day, progress, and bookmarked sheets        |
+| Grammar reference       | Alphabet, harmony, cases, verbs, possession, pronouns, adjectives, word-building, and syntax |
+| Everyday language       | Numbers, time, colours, greetings, and phrases you will actually use                         |
+| Interactive workbenches | Explore noun endings, vowel harmony, and verb conjugation                                    |
+| Practice drills         | Full or topic-specific quizzes, explanations, mistake review, and targeted retries           |
+| Search                  | Find cases, verbs, phrases, and basics with **⌘K / Ctrl+K**                                  |
+| Personal progress       | Continue your last sheet; keep bookmarks and your full-drill best in this browser            |
 
-| Sheet | What you get |
-| --- | --- |
-| Desk | Today’s névnap, a six-step path, local progress, and a map of the notebook |
-| Alphabet | Forty letters, the *s / sz* trap, long vowels |
-| Vowel harmony | Back, front, rounded — with a live bench |
-| Noun cases | Interiors / surfaces / vicinity, then the rest of the eighteen |
-| Verbs | Indefinite vs definite, coverbs, conjugator |
-| Possession, pronouns, adjectives, word-building, syntax | The rest of the map |
-| Basics & how to say | Numbers, time, colours, greetings, *szeretlek* |
-| Workbenches | Type a noun or a verb and watch the endings |
-| Drill | Twenty questions; best score stays on this device |
-| Search | ⌘K across cases, verbs, phrases, and basics |
+No account is required. Progress is stored in browser `localStorage`; it does not sync across devices or domains. If storage is unavailable, the notebook remains usable for the current session.
 
 ## Screenshots
 
-### Desk
+Real application captures, committed with the repository. Click a picture to inspect it at full size.
 
-![Tinta home desk](docs/screenshots/home.png)
+| The desk                                                                                                               | Noun cases                                                                                                                     |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [![Tinta desk with learning path, name day, and progress cards](docs/screenshots/home.png)](docs/screenshots/home.png) | [![Hungarian noun cases grouped by interiors, surfaces, and vicinity](docs/screenshots/cases.png)](docs/screenshots/cases.png) |
+| **A place to start.** A warm paper palette, clear navigation, and a structured learning path.                          | **Grammar you can scan.** Related endings sit together with practical examples.                                                |
 
-### Noun cases
+| Verb reference                                                                                                         | Practice                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [![Hungarian indefinite and definite verb conjugation tables](docs/screenshots/verbs.png)](docs/screenshots/verbs.png) | [![A Hungarian multiple-choice practice question with progress and score](docs/screenshots/practice.png)](docs/screenshots/practice.png) |
+| **Patterns side by side.** Compare conjugations and jump to the workbench.                                             | **Learn by answering.** Short questions put the reference material into practice.                                                        |
 
-![Noun cases overview](docs/screenshots/cases.png)
-
-### Verbs
-
-![Verb conjugations](docs/screenshots/verbs.png)
-
-### Practice drill
-
-![Practice quiz](docs/screenshots/practice.png)
-
-## Use it
-
-- Open the **desk** and follow the numbered path, or jump with **⌘K**.
-- Bookmark a sheet. Opened sheets and drill scores never leave this browser.
-- On iPhone, Add to Home Screen — it opens like its own app.
-- Privacy and support pages live at `/privacy` and `/support`.
-
-## Stack
-
-- React 19 + TanStack Router / Start
-- Tailwind CSS 4
-- Self-hosted Figtree + Fraunces (no Google Fonts request)
-- Zustand (on-device progress)
-- Vite 8 + Nitro (Cloudflare Pages or Vercel)
-- Playwright (devDependency) for UI capture
+These captures document the original interface. The current desk adds a bookmark shelf and study guidance; the current drill adds topic selection, mistake review, and retries. Those additions are not shown in these reference images.
 
 ## Local development
 
+Use **Node 22**, as pinned in [`.nvmrc`](.nvmrc).
+
 ```bash
-nvm install   # Node 22 — see .nvmrc
+git clone https://github.com/rntschlr/berry-brick-flora-bolt.git
+cd berry-brick-flora-bolt
+nvm install
 nvm use
 npm ci
+cp .env.example .env.local
 npm run dev
 ```
 
-Checks:
+Open **http://localhost:8080**. Keep the public configuration from [`.env.example`](.env.example): `VITE_AUTH_ENABLED=false`, `VITE_PUBLIC_STANDALONE=true`, and `VITE_SHIP_GROK_CHROME=false`. Never put secrets in a `VITE_` variable; these values can be included in browser code.
+
+Run the same checks used by pull requests:
 
 ```bash
 npm run typecheck
 npm run lint
 npm test
 NITRO_PRESET=cloudflare-pages npm run build:cf
+npm run test:production
 ```
 
-Auth stays **off** when `.grok/app-env.json` is missing (normal public checkout). See [`.env.example`](.env.example) and [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for previewing changes, checking interactions, and updating screenshots.
 
-## Go live today (Cloudflare Pages)
+## Architecture
 
-1. In the [repo secrets](https://github.com/rntschlr/berry-brick-flora-bolt/settings/secrets/actions) add:
-   - `CLOUDFLARE_API_TOKEN` — a token with **Account / Cloudflare Pages / Edit**
-   - `CLOUDFLARE_ACCOUNT_ID` — from the Cloudflare dashboard URL or Workers overview
-2. Push to `main` (or run **Actions → Cloudflare Pages → Run workflow**).
-3. The first successful deploy creates Pages project **`tinta`**.
-4. Open **https://tinta.pages.dev**.
-5. Optional: Cloudflare dashboard → Workers & Pages → `tinta` → **Custom domains**, then set `VITE_PUBLIC_SITE_URL` to that domain and redeploy.
+**The public notebook is a server-rendered application with browser-local progress.** React 19 and TanStack Router/Start provide the interface and routing; Vite 8, Tailwind CSS 4, and Nitro build the application for Cloudflare Pages. Figtree and Fraunces are self-hosted.
 
-If a token is missing, the workflow still typechecks, lints, and builds — it just skips the upload.
+The server renders pages and serves the application. Learning content lives in typed source files, and quizzes, bookmarks, and reading progress run in the browser. The repository also retains optional authentication, database, and connector helpers from its original scaffold; the public notebook does not use them for learner data or offer account sync.
 
-## Privacy & security
+The [architecture guide](docs/architecture.md) explains the boundaries, source layout, and what would be needed before adding a persistent backend.
 
-- Progress is stored on-device only — see [Privacy](./src/routes/privacy.tsx)
-- Vulnerability reports: [SECURITY.md](SECURITY.md)
+## Deployment & your future domain
 
-Hungarian névnap lists in `src/data/namedays.ts` keep real given names. That is not the product name.
+The repository includes a Cloudflare Pages workflow. Pull requests run typechecking, lint, tests, a production build, and checks against the built server handler. Uploads are restricted to `main` and require deployment credentials.
 
-## License
+Follow the [deployment guide](docs/deployment.md) to create the Pages project, configure GitHub Actions, verify the live site, and connect a custom domain when you have one. Set the GitHub Actions repository variable **`VITE_PUBLIC_SITE_URL`** to your public HTTPS origin and rebuild when the domain changes.
 
-Private / personal project unless otherwise noted by the owner.
+The default configuration names `https://tinta.pages.dev`; that is a deployment target, not confirmation that a live site has been published. Browser progress belongs to its current origin, so moving to a custom domain starts a separate local notebook.
+
+## Project information
+
+- [Contributing](CONTRIBUTING.md)
+- [Architecture](docs/architecture.md)
+- [Deployment and custom domains](docs/deployment.md)
+- [Security reporting](SECURITY.md)
+- [Privacy page](src/routes/privacy.tsx)
+
+The product is **Tinta**. `berry-brick-flora-bolt` is the original GitHub repository name. Hungarian name-day data retains real given names.
+
+**License:** no open-source license is granted by this repository unless the owner adds one.

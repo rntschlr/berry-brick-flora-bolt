@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/grammar")({
   component: GrammarPage,
-  head: () => pageHead("Syntax", "van, plurals, word order, and the extras that keep coming up."),
+  head: ({ match }) => pageHead("Syntax", "van, plurals, word order, and the extras that keep coming up.", match.pathname),
 });
 
 function Block({

@@ -12,8 +12,8 @@ export type ProgressSnapshot = {
 };
 
 export function markSeenList(seen: readonly string[], id: string): string[] {
-  if (!id || seen.includes(id)) return [...seen];
-  return [...seen, id];
+  if (!id) return [...seen];
+  return [...seen.filter((item) => item !== id), id];
 }
 
 export function toggleBookmarkList(bookmarks: readonly string[], id: string): string[] {
@@ -33,28 +33,46 @@ export function recordQuizStats(
   };
 }
 
+// Every operation can throw in restricted browsers, not just the initial read.
+export function safeStorage(getStorage: () => Storage) {
+  return {
+    getItem: (key: string) => {
+      try {
+        return getStorage().getItem(key);
+      } catch {
+        return null;
+      }
+    },
+    setItem: (key: string, value: string) => {
+      try {
+        getStorage().setItem(key, value);
+      } catch {
+        /* Keep this session usable. */
+      }
+    },
+    removeItem: (key: string) => {
+      try {
+        getStorage().removeItem(key);
+      } catch {
+        /* Storage is optional. */
+      }
+    },
+  };
+}
+
+export const browserStorage = safeStorage(() => window.localStorage);
+
 function progressStorage() {
-  if (typeof window === "undefined") {
-    return {
-      getItem: () => null,
-      setItem: () => {},
-      removeItem: () => {},
-    };
-  }
-  try {
-    if (!window.localStorage.getItem(PROGRESS_KEY)) {
-      for (const key of LEGACY_PROGRESS_KEYS) {
-        const legacy = window.localStorage.getItem(key);
-        if (legacy) {
-          window.localStorage.setItem(PROGRESS_KEY, legacy);
-          break;
-        }
+  if (!browserStorage.getItem(PROGRESS_KEY)) {
+    for (const key of LEGACY_PROGRESS_KEYS) {
+      const legacy = browserStorage.getItem(key);
+      if (legacy) {
+        browserStorage.setItem(PROGRESS_KEY, legacy);
+        break;
       }
     }
-  } catch {
-    // private mode / blocked storage
   }
-  return window.localStorage;
+  return browserStorage;
 }
 
 type ProgressState = ProgressSnapshot & {
