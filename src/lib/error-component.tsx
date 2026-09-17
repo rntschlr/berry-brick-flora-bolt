@@ -5,6 +5,7 @@ import { APP_NAME } from "@/lib/brand";
 const FALLBACK_MESSAGE = `Something went wrong in ${APP_NAME}. Try reloading the page.`;
 
 function errorMessage(error: unknown): string {
+  if (!import.meta.env.DEV) return FALLBACK_MESSAGE;
   if (error instanceof Error && error.message.trim()) return error.message.trim();
   if (typeof error === "string" && error.trim()) return error.trim();
   return FALLBACK_MESSAGE;

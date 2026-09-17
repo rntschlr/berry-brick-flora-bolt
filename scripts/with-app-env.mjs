@@ -12,9 +12,9 @@
  * `process.env` entry always wins, so an explicit override still works.
  *
  * That precedence also means the file governs this workspace only. A deployed
- * build runs with the provider's project env, where the deployer sets
- * `VITE_AUTH_ENABLED` itself (today unconditionally `"true"`), so the deployed
- * flag is the platform's, not this file's.
+ * build runs with the provider's project env, where the deployment target sets
+ * `VITE_AUTH_ENABLED` itself. The public build forces it to `"false"`; this
+ * workspace file cannot enable auth on that target.
  *
  * Vite picks the values up because `loadEnv` prefix-matches entries already in
  * `process.env`, which is why the merge has to happen before Vite starts.
@@ -32,7 +32,7 @@ const VITE_PREFIX = "VITE_";
 /**
  * Parse an app-env document, keeping only `VITE_`-prefixed string entries.
  * Anything unparseable is an empty environment — a workspace without the file
- * must behave exactly like today (auth on, no overrides).
+ * uses the Vite configuration defaults (public auth off, no overrides).
  */
 export function parseAppEnv(text) {
   let parsed;

@@ -46,7 +46,7 @@ function Root() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       </head>
       <body className="antialiased">
-        <PreviewHostBridge />
+        {import.meta.env.VITE_PUBLIC_STANDALONE === "false" ? <PreviewHostBridge /> : null}
         <AuthProvider>
           <TooltipProvider delayDuration={200}>
             <AppShell>

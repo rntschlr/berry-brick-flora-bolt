@@ -35,7 +35,7 @@ The server sends the notebook to the browser. Learning interactions run locally;
 
 The Cloudflare workflow sets `VITE_AUTH_ENABLED=false`, `VITE_PUBLIC_STANDALONE=true`, and `VITE_SHIP_GROK_CHROME=false`. Keep those values for the public notebook. `VITE_PUBLIC_SITE_URL` supplies the public origin for domain-dependent metadata and is build-time configuration, so changing it requires rebuilding.
 
-`NITRO_PRESET=cloudflare-pages npm run build:cf` builds the Cloudflare application without invoking database migrations. The generic `npm run build` invokes `scripts/migrate.mjs` after building and is a different deployment path.
+`npm run build:cf` builds the Cloudflare application without invoking database migrations. The generic `npm run build` builds the configured server target without database writes. Apply PostgreSQL schema changes explicitly with `npm run db:migrate` before starting an account-enabled server.
 
 The full launch sequence, domain settings, and post-deployment checks are in [Deployment](deployment.md).
 
@@ -65,3 +65,17 @@ If the product later needs accounts, add the user-facing flow and server routes 
 Pull requests run TypeScript checking, ESLint, unit tests, the Cloudflare build, and `test:production` against the built worker handler. Application tests exercise language rules, search, progress behavior, and quiz sessions; scaffold tests cover shared platform helpers. Generator-document checks may skip in a public checkout when their private source files are absent.
 
 Passing those checks does not establish browser compatibility or successful deployment. Inspect affected interactions in a real browser, then verify the deployed origin, headers, metadata, direct route loads, and local progress persistence using the [deployment guide](deployment.md).
+
+## Launch hardening
+
+`npm run build:cf` selects Cloudflare Pages and forces standalone mode, auth off, and builder chrome off even if the surrounding shell or original Grok workspace has different flags. The production smoke test visits every sitemap URL, verifies public responses set no session cookies, checks private scaffold paths return 404, and checks the built JavaScript for unwanted auth/database/connector/preview code. The preview bridge is excluded at build time from the public root.
+
+Saved progress is treated as data of unknown shape. Only valid arrays and nonnegative integer counters are restored; persisted keys cannot overwrite store actions. Valid existing bookmarks and progress, including the legacy storage key, remain compatible. Production error pages show a stable recovery message rather than raw internal exception text.
+
+Optional database imports are lazy. Production database access requires `DATABASE_URL`; it fails explicitly rather than silently saving data into a process-local PGlite instance. Ordinary builds do not mutate database schema. If the optional PostgreSQL backend is implemented later, run migrations as an explicit release step with a backup and a compatible rollback plan.
+
+## Mobile follow-through
+
+The existing `native/` folder is an iOS Capacitor starting configuration, not a complete iOS or Android application. Its `www` directory is not prepared by the current SSR build, and it has no Android dependency/platform project. Do not copy `dist` into `native/www`: the current output requires the server worker.
+
+Before a mobile release, choose a supported native web asset build or an intentional hosted-webview architecture, add and test both native platforms, verify navigation and offline behavior, and complete signing and store submission. Keep learning content and domain functions shared. If cross-device progress is needed, design an authenticated versioned API, per-user authorization, persistent storage, conflict handling, export/deletion, and privacy changes before enabling accounts. Those are new product capabilities, not features provided by the retained scaffold.

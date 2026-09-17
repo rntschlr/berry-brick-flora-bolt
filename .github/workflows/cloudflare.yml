@@ -44,6 +44,10 @@ jobs:
         env:
           VITE_PUBLIC_SITE_URL: ${{ vars.VITE_PUBLIC_SITE_URL || 'https://tinta.pages.dev' }}
         run: npm run test:production
+      - name: Install browser for smoke tests
+        run: npx playwright install --with-deps chromium
+      - name: Verify browser interactions
+        run: npm run test:browser
       - name: Check deployment configuration
         id: deployment
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

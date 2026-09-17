@@ -64,7 +64,7 @@ Run the same checks used by pull requests:
 npm run typecheck
 npm run lint
 npm test
-NITRO_PRESET=cloudflare-pages npm run build:cf
+npm run build:cf
 npm run test:production
 ```
 

@@ -29,3 +29,25 @@ test("health endpoint is non-cacheable and reveals only liveness", async () => {
   assert.equal(response.headers.get("cache-control"), "no-store");
   assert.deepEqual(await response.json(), { status: "ok", service: "tinta" });
 });
+
+test("HEAD preserves status and headers while cancelling the response body", async () => {
+  let cancelled = false;
+  const stream = new ReadableStream({
+    cancel() {
+      cancelled = true;
+    },
+  });
+  const event = { res: { headers: new Headers() }, req: { method: "HEAD" } };
+  const result = await securityHeaders(
+    event,
+    () =>
+      new Response(stream, {
+        status: 200,
+        headers: { "content-type": "text/html" },
+      }),
+  );
+  assert.equal(result.status, 200);
+  assert.equal(result.headers.get("content-type"), "text/html");
+  assert.equal(await result.text(), "");
+  assert.equal(cancelled, true);
+});
