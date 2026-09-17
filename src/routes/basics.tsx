@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/basics")({
   component: BasicsPage,
-  head: () => pageHead("Basics", "Numbers, colours, calendar, and Hungarian time of day."),
+  head: ({ match }) => pageHead("Basics", "Numbers, colours, calendar, and Hungarian time of day.", match.pathname),
 });
 
 function PairSheet({ items }: { items: { hu: string; en: string; note?: string }[] }) {

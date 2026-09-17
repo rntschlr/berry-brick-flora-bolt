@@ -1,15 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { CASES, PLACE_ADVERBS, TRIADS } from "@/data/cases";
 import { PageHeader, Paper } from "@/components/page";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/cases")({
   component: CasesPage,
-  head: () =>
-    pageHead("Noun cases", "Eighteen Hungarian noun cases, the movement triads, and here/there/where."),
+  head: ({ match, matches }) =>
+    matches.at(-1)?.id === match.id
+      ? pageHead(
+          "Noun cases",
+          "Eighteen Hungarian noun cases, the movement triads, and here/there/where.",
+          match.pathname,
+        )
+      : {},
 });
 
 function CasesPage() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (pathname !== "/cases" && pathname !== "/cases/") return <Outlet />;
   const grammatical = CASES.filter((c) => !c.triad);
   return (
     <div>
@@ -55,7 +63,9 @@ function CasesPage() {
       </div>
 
       <Paper>
-        <h2 className="font-display text-xl font-semibold">Here / there / where also come in threes</h2>
+        <h2 className="font-display text-xl font-semibold">
+          Here / there / where also come in threes
+        </h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-lg text-left text-sm">
             <thead>

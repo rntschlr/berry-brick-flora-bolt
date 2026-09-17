@@ -1,3 +1,5 @@
+import { siteOrigin } from "../../scripts/site-config.mjs";
+
 export const APP_NAME = "Tinta";
 export const APP_TAGLINE = "Hungarian field notes";
 export const APP_DESCRIPTION =
@@ -7,8 +9,4 @@ export const REPO_URL = "https://github.com/rntschlr/berry-brick-flora-bolt";
 export const SUPPORT_EMAIL = "johnkrentschler@icloud.com";
 export const THEME_COLOR = "#F4EFE4";
 /** Public origin after Cloudflare Pages project `tinta` is created. Override with VITE_PUBLIC_SITE_URL. */
-export const SITE_ORIGIN = (
-  typeof import.meta !== "undefined" && import.meta.env?.VITE_PUBLIC_SITE_URL
-    ? String(import.meta.env.VITE_PUBLIC_SITE_URL)
-    : "https://tinta.pages.dev"
-).replace(/\/$/, "");
+export const SITE_ORIGIN = siteOrigin(import.meta.env?.VITE_PUBLIC_SITE_URL);

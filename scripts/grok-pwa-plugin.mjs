@@ -151,7 +151,7 @@ function wrapHtmlResponses(middlewares, cwd) {
   });
 }
 
-export function grokPwaPlugin() {
+export function grokPwaPlugin({ standalone = false } = {}) {
   let root = process.cwd();
   return {
     name: "app-builder:grok-pwa",
@@ -166,18 +166,21 @@ export function grokPwaPlugin() {
       return `export const grokOgIdentity = ${JSON.stringify(snapshotOgIdentity(root))};`;
     },
     transformIndexHtml(html) {
+      if (standalone) return html;
       return injectGrokPwaHead(html, {
         host: process.env.VITE_PUBLIC_HOSTNAME ?? "",
         cwd: root,
       });
     },
     configureServer(server) {
+      if (standalone) return;
       // Registered directly (not in a returned post-hook) so both run BEFORE
       // TanStack Start's SSR middleware, like the auth-popup plugin.
       serveGrokPwa(server.middlewares);
       wrapHtmlResponses(server.middlewares, root);
     },
     configurePreviewServer(server) {
+      if (standalone) return;
       serveGrokPwa(server.middlewares);
       // Post-hook: preview registers compression between the direct hooks and
       // the post-hooks, and the injector must wrap AFTER compression so it

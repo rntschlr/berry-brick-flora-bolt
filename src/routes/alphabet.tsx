@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/alphabet")({
   component: AlphabetPage,
-  head: () => pageHead("Alphabet", "Forty letters, the s/sz trap, and long vowels."),
+  head: ({ match }) => pageHead("Alphabet", "Forty letters, the s/sz trap, and long vowels.", match.pathname),
 });
 
 function AlphabetPage() {

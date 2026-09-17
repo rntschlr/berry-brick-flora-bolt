@@ -17,7 +17,7 @@ import {
   snapshotOgIdentity,
   stripInstallParams,
 } from "./grok-pwa-shared.mjs";
-import { renderInstallPage } from "./grok-pwa-plugin.mjs";
+import { grokPwaPlugin, renderInstallPage } from "./grok-pwa-plugin.mjs";
 
 // Generic platform cases must not read Tinta's real title or custom OG image.
 const FIXTURE_ROOT = mkdtempSync(join(tmpdir(), "pwa-fixture-"));
@@ -493,7 +493,7 @@ test("renders the manifest with the per-app name", () => {
 test("vite config keeps the nitro serverDir wiring", () => {
   const viteConfig = readFileSync(join(TEMPLATE_ROOT, "vite.config.ts"), "utf8");
   assert.match(viteConfig, /serverDir:\s*"\.\/server"/);
-  assert.match(viteConfig, /grokPwaPlugin\(\)/);
+  assert.match(viteConfig, /grokPwaPlugin\(\{ standalone \}\)/);
 });
 
 test("nitro middleware and its bundled assets exist", () => {
@@ -511,3 +511,13 @@ test("vite plugin bakes og identity as a virtual module", () => {
   assert.match(plugin, /snapshotOgIdentity/);
 });
 
+
+
+test("standalone mode does not register builder routes or inject external chrome", () => {
+  const plugin = grokPwaPlugin({ standalone: true });
+  const html = "<html><head><title>Tinta</title></head></html>";
+  assert.equal(plugin.transformIndexHtml(html), html);
+  const server = { middlewares: { use() { assert.fail("Standalone must not register platform middleware"); } } };
+  assert.equal(plugin.configureServer(server), undefined);
+  assert.equal(plugin.configurePreviewServer(server), undefined);
+});

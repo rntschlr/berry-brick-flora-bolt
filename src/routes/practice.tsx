@@ -5,7 +5,7 @@ import { QuizPanel } from "@/components/quiz-panel";
 
 export const Route = createFileRoute("/practice")({
   component: PracticePage,
-  head: () => pageHead("Drill", "Twenty questions. Best score stays on this device."),
+  head: ({ match }) => pageHead("Drill", "Twenty questions. Best score stays on this device.", match.pathname),
 });
 
 function PracticePage() {

@@ -5,7 +5,7 @@ import { PageHeader, Paper } from "@/components/page";
 
 export const Route = createFileRoute("/word-building")({
   component: WordBuildingPage,
-  head: () => pageHead("Word-building", "The suffix machinery behind Hungarian words."),
+  head: ({ match }) => pageHead("Word-building", "The suffix machinery behind Hungarian words.", match.pathname),
 });
 
 function WordBuildingPage() {

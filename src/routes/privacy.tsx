@@ -5,7 +5,7 @@ import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
-  head: () => pageHead("Privacy", `${APP_NAME} does not need an account and does not sell data.`),
+  head: ({ match }) => pageHead("Privacy", `${APP_NAME} does not need an account and does not sell data.`, match.pathname),
 });
 
 function PrivacyPage() {

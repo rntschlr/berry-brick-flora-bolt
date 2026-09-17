@@ -1,46 +1,68 @@
 # Contributing to Tinta
 
-## Prerequisites
+Tinta is a public Hungarian grammar notebook. Keep changes useful to learners, easy to review, and consistent with the privacy promise: reading progress, bookmarks, and drill scores stay in the browser.
 
-- [nvm](https://github.com/nvm-sh/nvm) (or equivalent)
-- Node **22** (see `.nvmrc`)
-- npm 9+
+## Set up
 
-```bash
-nvm install
-nvm use
-```
-
-## Setup
+Use Node **22** ([`.nvmrc`](.nvmrc)) and the committed npm lockfile.
 
 ```bash
 git clone https://github.com/rntschlr/berry-brick-flora-bolt.git
 cd berry-brick-flora-bolt
+nvm install
+nvm use
 npm ci
+cp .env.example .env.local
+npm run dev
 ```
 
-Auth stays **off** when `.grok/app-env.json` is missing (normal public checkout). See `.env.example`.
+The development server uses **http://localhost:8080**. Vite defaults to the public standalone configuration with auth disabled. Retain the explicit flags from [`.env.example`](.env.example), including `VITE_AUTH_ENABLED=false`, so local and deployment settings remain easy to inspect.
 
-## Checks
+Do not commit `.env.local`, `.grok/app-env.json`, database credentials, or deployment tokens. Variables beginning with `VITE_` are public build configuration, never a place for secrets.
+
+## Understand the boundaries
+
+- `src/data/` contains learning material. Preserve accents and verify Hungarian examples when changing content.
+- `src/lib/hungarian.ts`, `search-core.ts`, and `quiz-session.ts` contain testable language, search, and quiz logic.
+- `src/lib/progress.ts` owns browser-local learner state. Keep storage failures nonfatal.
+- `src/routes/` and `src/components/` contain the notebook interface.
+- `server/` contains the Nitro server layer. Optional auth, database, and connector modules are inherited infrastructure, not a shipped account-sync feature.
+
+See [Architecture](docs/architecture.md) before changing server behavior. See [Deployment](docs/deployment.md) for Cloudflare and domain configuration.
+
+## Validate a change
 
 ```bash
 npm run typecheck
 npm run lint
 npm test
 NITRO_PRESET=cloudflare-pages npm run build:cf
+npm run test:production
 ```
 
-Local UI:
+`build:cf` builds the public Cloudflare application without running database migrations. The generic `npm run build` also invokes the database migration runner and is a separate deployment path.
 
-```bash
-npm run dev
-# or after build:cf
-npm run preview
-```
+`test:production` exercises the built Cloudflare worker handler directly. Run it after `build:cf`; it checks the resulting server behavior without publishing the site. Keep the same `VITE_PUBLIC_SITE_URL` for both commands when testing a custom origin.
 
-## Pull requests
+Use the development server for interface inspection, and the [deployment guide](docs/deployment.md) to verify the built application in its hosting runtime. Confirm changed routes also work when opened directly or refreshed. For interface changes, inspect a desktop and a narrow mobile viewport, use the keyboard, and check the browser console. For progress or quiz changes, exercise reload persistence, topic selection, answers, results, and any changed retry behavior.
 
-- Keep the GitHub repo slug (`berry-brick-flora-bolt`); brand the product as **Tinta**.
-- Do not commit secrets, Cloudflare tokens, or `.grok/app-env.json`.
-- Prefer focused diffs: hygiene, domain logic, docs/screenshots — not cosmetic churn.
-- Hungarian name-day lists in `src/data/namedays.ts` keep real given names. That is not the product name.
+Add or update focused tests when behavior changes. Avoid tests that only repeat implementation details. Some scaffold tests cover private generator documents and skip when those documents are absent from a public checkout. `npm run check:auth` compares the environment against a running development server; it is not a standalone unit test.
+
+## Update screenshots
+
+The README loads images directly from `docs/screenshots/`. Keep those paths stable when replacing captures.
+
+1. Run the app with public standalone flags and a clean browser profile.
+2. Capture the actual application at a consistent viewport; the existing desktop images are **1440 × 900**.
+3. Check fonts, accents, focus states, and layout. Exclude browser chrome and personal information.
+4. Save PNGs in `docs/screenshots/`, and update the README captions if the visible state changes.
+
+Use real browser captures for interface screenshots. The current README explicitly identifies older reference captures; remove that note only when all relevant screenshots have been refreshed and verified.
+
+## Submit a pull request
+
+Explain the user-facing problem, what changes, and how you verified it. Include before/after screenshots for material interface changes and call out any verification you could not complete.
+
+Keep the product name **Tinta** and the existing repository slug. Preserve real given names in Hungarian name-day data. Avoid generated build output and unrelated formatting churn.
+
+Pull requests run the Cloudflare workflow checks without deploying. Deployment is restricted to `main` with configured credentials. Report vulnerabilities through [SECURITY.md](SECURITY.md).

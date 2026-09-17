@@ -5,7 +5,7 @@ import { PageHeader, Paper } from "@/components/page";
 
 export const Route = createFileRoute("/possession")({
   component: PossessionPage,
-  head: () => pageHead("Possession", "házam, van kutyám — marking what is yours."),
+  head: ({ match }) => pageHead("Possession", "házam, van kutyám — marking what is yours.", match.pathname),
 });
 
 function PossessionPage() {
