@@ -11,10 +11,10 @@
  * a secret store, and only `VITE_` vars reach the browser anyway. A real
  * `process.env` entry always wins, so an explicit override still works.
  *
- * That precedence also means the file governs this workspace only. A deployed
- * build runs with the provider's project env, where the deployer sets
- * `VITE_AUTH_ENABLED` itself (today unconditionally `"true"`), so the deployed
- * flag is the platform's, not this file's.
+ * When `.grok/app-env.json` is missing (public / Cloudflare checkout), auth
+ * defaults OFF (`VITE_AUTH_ENABLED=false`) so a standalone site never ships
+ * with accounts enabled by accident. Grok workspaces that need auth on still
+ * set the file (or the process env) explicitly.
  *
  * Vite picks the values up because `loadEnv` prefix-matches entries already in
  * `process.env`, which is why the merge has to happen before Vite starts.
@@ -29,10 +29,16 @@ export const APP_ENV_REL_PATH = ".grok/app-env.json";
 
 const VITE_PREFIX = "VITE_";
 
+/** Public-site defaults when `.grok/app-env.json` is absent. */
+export const PUBLIC_DEFAULT_APP_ENV = Object.freeze({
+  VITE_AUTH_ENABLED: "false",
+  VITE_PUBLIC_STANDALONE: "true",
+  VITE_SHIP_GROK_CHROME: "false",
+});
+
 /**
  * Parse an app-env document, keeping only `VITE_`-prefixed string entries.
- * Anything unparseable is an empty environment — a workspace without the file
- * must behave exactly like today (auth on, no overrides).
+ * Anything unparseable yields no overrides (callers may still apply public defaults).
  */
 export function parseAppEnv(text) {
   let parsed;
@@ -51,12 +57,15 @@ export function parseAppEnv(text) {
   return env;
 }
 
-/** The app env recorded under `root`, or `{}` when the file is absent. */
+/**
+ * The app env recorded under `root`. When the file is absent, return public
+ * defaults (auth off / no Grok chrome) so Cloudflare and bare checkouts stay safe.
+ */
 export function readAppEnv(root) {
   try {
     return parseAppEnv(readFileSync(join(root, APP_ENV_REL_PATH), "utf8"));
   } catch {
-    return {};
+    return { ...PUBLIC_DEFAULT_APP_ENV };
   }
 }
 

@@ -1,21 +1,21 @@
 # Security Policy
 
-## Supported Versions
+## Supported versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Magdolna is distributed as this repository’s `main` branch (Cloudflare Pages project `magdolna`). Only the latest `main` receives fixes.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Reporting a vulnerability
 
-## Reporting a Vulnerability
+Email **johnkrentschler@icloud.com** with:
 
-Use this section to tell people how to report a vulnerability.
+- A short description of the issue
+- Steps to reproduce (or a PoC that does not harm third parties)
+- Impact assessment if you have one
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+You can expect an acknowledgement within a few days. Please do **not** open a public GitHub issue for sensitive reports.
+
+## Scope notes
+
+- Progress data is stored **on-device** (localStorage). Magdolna does not require an account for the public grammar notebook.
+- Auth is **disabled** for public Cloudflare builds (`VITE_AUTH_ENABLED=false`). Preview OAuth secrets must come from the environment — there is no hardcoded client secret in the repo.
+- Do not invent or commit Cloudflare API tokens or OAuth client secrets.
