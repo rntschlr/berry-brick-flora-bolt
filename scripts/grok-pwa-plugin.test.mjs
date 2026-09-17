@@ -6,9 +6,9 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 import {
   appNameFromHost,
-  createHeadInjector,
+  createHeadInjector as createHeadInjectorImpl,
   grokXCreatorHeadTags,
-  injectGrokPwaHead,
+  injectGrokPwaHead as injectGrokPwaHeadImpl,
   isDocumentPath,
   isInstallQuery,
   publicAppHost,
@@ -18,6 +18,13 @@ import {
   stripInstallParams,
 } from "./grok-pwa-shared.mjs";
 import { renderInstallPage } from "./grok-pwa-plugin.mjs";
+
+// Generic platform cases must not read Tinta's real title or custom OG image.
+const FIXTURE_ROOT = mkdtempSync(join(tmpdir(), "pwa-fixture-"));
+const injectGrokPwaHead = (html, context = {}) =>
+  injectGrokPwaHeadImpl(html, { cwd: FIXTURE_ROOT, ...context });
+const createHeadInjector = (context = {}) =>
+  createHeadInjectorImpl({ cwd: FIXTURE_ROOT, ...context });
 
 const TEMPLATE_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 

@@ -26,7 +26,7 @@ The GitHub slug (`berry-brick-flora-bolt`) is the scaffold export name. The prod
 | Possession, pronouns, adjectives, word-building, syntax | The rest of the map |
 | Basics & how to say | Numbers, time, colours, greetings, *szeretlek* |
 | Workbenches | Type a noun or a verb and watch the endings |
-| Drill | Twenty questions; best score stays on this device |
+| Drill | Full or topic drills, mistake review, and retry; full-drill best stays on this device |
 | Search | ⌘K across cases, verbs, phrases, and basics |
 
 ## Screenshots
@@ -50,7 +50,9 @@ The GitHub slug (`berry-brick-flora-bolt`) is the scaffold export name. The prod
 ## Use it
 
 - Open the **desk** and follow the numbered path, or jump with **⌘K**.
-- Bookmark a sheet. Opened sheets and drill scores never leave this browser.
+- Bookmark a sheet and find it under **Your bookmarked sheets** on the desk. Continue returns to your most recently visited sheet.
+- Choose a topic in **Drill**, review explanations, and retry only your missed questions. Focused drills never overwrite your full-drill best score.
+- Opened sheets and drill scores never leave this browser. If browser storage is unavailable, the notebook still works for the current session.
 - On iPhone, Add to Home Screen — it opens like its own app.
 - Privacy and support pages live at `/privacy` and `/support`.
 
@@ -93,6 +95,8 @@ Auth stays **off** when `.grok/app-env.json` is missing (normal public checkout)
 4. Open **https://tinta.pages.dev**.
 5. Optional: Cloudflare dashboard → Workers & Pages → `tinta` → **Custom domains**, then set `VITE_PUBLIC_SITE_URL` to that domain and redeploy.
 
+Pull requests run typechecking, lint, unit tests, and a Cloudflare build without deploying. Deployments run only from `main`.
+
 If a token is missing, the workflow still typechecks, lints, and builds — it just skips the upload.
 
 ## Privacy & security
@@ -105,3 +109,7 @@ Hungarian névnap lists in `src/data/namedays.ts` keep real given names. That is
 ## License
 
 Private / personal project unless otherwise noted by the owner.
+
+### Test portability
+
+Platform helper tests use isolated fixtures so the app's real branding and absent generator configuration cannot change expected results. Four checks for private generator prompt documents are reported as skipped when those documents are absent; runtime and application tests still run. `npm run check:auth` is a live dev-server comparison and needs a running local server.

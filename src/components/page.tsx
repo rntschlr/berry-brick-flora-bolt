@@ -31,7 +31,9 @@ export function PageHeader({
       <div className="flex items-start justify-between gap-4">
         <div>
           {kicker ? (
-            <p className="mb-2 text-xs font-medium tracking-[0.18em] text-primary uppercase">{kicker}</p>
+            <p className="mb-2 text-xs font-medium tracking-[0.18em] text-primary uppercase">
+              {kicker}
+            </p>
           ) : null}
           <h1 className="font-display text-3xl font-semibold text-fg md:text-5xl">{title}</h1>
         </div>
@@ -39,6 +41,7 @@ export function PageHeader({
           <Button
             variant="ghost"
             size="icon"
+            aria-pressed={saved}
             aria-label={saved ? "Remove bookmark" : "Bookmark this sheet"}
             onClick={() => toggle(id)}
             className="shrink-0"
@@ -54,7 +57,13 @@ export function PageHeader({
 }
 
 export function Paper({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] md:p-6", className)}>{children}</div>;
+  return (
+    <div
+      className={cn("rounded-2xl bg-surface p-5 shadow-[var(--shadow-border)] md:p-6", className)}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function Hu({ children, className }: { children: ReactNode; className?: string }) {
@@ -81,7 +90,10 @@ export function PairRow({ hu, en, note }: { hu: string; en: string; note?: strin
 
 export function BackLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link to={href} className="mb-6 inline-flex min-h-11 items-center text-sm text-muted hover:text-fg">
+    <Link
+      to={href}
+      className="mb-6 inline-flex min-h-11 items-center text-sm text-muted hover:text-fg"
+    >
       ← {label}
     </Link>
   );
