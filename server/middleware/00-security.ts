@@ -6,7 +6,7 @@ export const RESPONSE_HEADERS = {
   "content-security-policy": "object-src 'none'; base-uri 'self'",
 } as const;
 
-type ResponseEvent = { res: { headers: Headers } };
+type ResponseEvent = { res: { headers: Headers }; req?: { method: string } };
 
 export default async function securityHeaders(
   event: ResponseEvent,
@@ -18,7 +18,9 @@ export default async function securityHeaders(
   // Responses returned directly by other middleware can have immutable headers.
   const headers = new Headers(result.headers);
   for (const [name, value] of Object.entries(RESPONSE_HEADERS)) headers.set(name, value);
-  return new Response(result.body, {
+  const head = event.req?.method === "HEAD";
+  if (head) await result.body?.cancel();
+  return new Response(head ? null : result.body, {
     status: result.status,
     statusText: result.statusText,
     headers,

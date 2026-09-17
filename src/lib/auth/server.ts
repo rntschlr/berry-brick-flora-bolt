@@ -12,7 +12,7 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { getCookie } from "@tanstack/react-start/server";
 import { randomBytes } from "node:crypto";
 import { Pool } from "pg";
-import { ensureDbReady, getPglite } from "../db";
+import { getPglite } from "../db";
 import { emailAndPasswordEnabled } from "./email-password";
 import { GATE_PROVIDER_ID, gateIdentitySessions } from "./gate-session.server";
 import { GROK_PROVIDERS } from "./providers";
@@ -51,9 +51,6 @@ const grokClientSecret = authEnvironment.clientSecret;
 
 /** True when the optional broker integration has valid credentials. */
 export const authConfigured = authEnvironment.enabled;
-
-// Validate configuration before starting database work.
-void ensureDbReady();
 
 // This app's own Better Auth origin. When deployed the deployer injects the
 // public URL. In the sandbox live preview there's no fixed URL (each preview gets

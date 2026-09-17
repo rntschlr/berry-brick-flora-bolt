@@ -36,11 +36,11 @@ See [Architecture](docs/architecture.md) before changing server behavior. See [D
 npm run typecheck
 npm run lint
 npm test
-NITRO_PRESET=cloudflare-pages npm run build:cf
+npm run build:cf
 npm run test:production
 ```
 
-`build:cf` builds the public Cloudflare application without running database migrations. The generic `npm run build` also invokes the database migration runner and is a separate deployment path.
+`build:cf` builds the public Cloudflare application without running database migrations. The generic `npm run build` builds the configured server target without database writes. If enabling the optional PostgreSQL backend, run `npm run db:migrate` explicitly before starting it.
 
 `test:production` exercises the built Cloudflare worker handler directly. Run it after `build:cf`; it checks the resulting server behavior without publishing the site. Keep the same `VITE_PUBLIC_SITE_URL` for both commands when testing a custom origin.
 
@@ -66,3 +66,9 @@ Explain the user-facing problem, what changes, and how you verified it. Include 
 Keep the product name **Tinta** and the existing repository slug. Preserve real given names in Hungarian name-day data. Avoid generated build output and unrelated formatting churn.
 
 Pull requests run the Cloudflare workflow checks without deploying. Deployment is restricted to `main` with configured credentials. Report vulnerabilities through [SECURITY.md](SECURITY.md).
+
+### Browser regression checks
+
+After `npm run build:cf`, install the test browser once with `npx playwright install chromium`, then run `npm run test:browser`. CI installs Chromium and runs the same check before deployment. It exercises the actual built worker through a loopback HTTP adapter at desktop and mobile widths, including malformed localStorage, bookmark persistence, search navigation and uncaught browser errors. It does not emulate Cloudflare bindings or replace Safari/native-device testing. A local Chrome binary can be selected with `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`.
+
+The public build fixes its deployment flags itself. Generic `npm run build` remains available for other configured Nitro targets, but database migrations are always an explicit `npm run db:migrate` operation.

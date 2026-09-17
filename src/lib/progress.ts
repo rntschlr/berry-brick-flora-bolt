@@ -11,6 +11,26 @@ export type ProgressSnapshot = {
   quizAttempts: number;
 };
 
+/** Persisted browser data can be stale or malformed. Restore data, never actions. */
+export function normalizeProgress(value: unknown): ProgressSnapshot {
+  const data =
+    value && typeof value === "object" && !Array.isArray(value)
+      ? (value as Record<string, unknown>)
+      : {};
+  const ids = (value: unknown): string[] =>
+    Array.isArray(value)
+      ? [...new Set(value.filter((id): id is string => typeof id === "string" && id.length > 0))]
+      : [];
+  const count = (value: unknown): number =>
+    typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : 0;
+  return {
+    seen: ids(data.seen),
+    bookmarks: ids(data.bookmarks),
+    quizBest: count(data.quizBest),
+    quizAttempts: count(data.quizAttempts),
+  };
+}
+
 export function markSeenList(seen: readonly string[], id: string): string[] {
   if (!id) return [...seen];
   return [...seen.filter((item) => item !== id), id];
@@ -95,6 +115,13 @@ export const useProgress = create<ProgressState>()(
     {
       name: PROGRESS_KEY,
       storage: createJSONStorage(() => progressStorage()),
+      merge: (persisted, current) => ({ ...current, ...normalizeProgress(persisted) }),
+      partialize: ({ seen, bookmarks, quizBest, quizAttempts }) => ({
+        seen,
+        bookmarks,
+        quizBest,
+        quizAttempts,
+      }),
     },
   ),
 );

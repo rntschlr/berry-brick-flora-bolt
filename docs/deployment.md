@@ -70,7 +70,7 @@ npm ci
 npm run typecheck
 npm run lint
 npm test
-NITRO_PRESET=cloudflare-pages VITE_PUBLIC_SITE_URL=https://example.com npm run build:cf
+VITE_PUBLIC_SITE_URL=https://example.com npm run build:cf
 VITE_PUBLIC_SITE_URL=https://example.com npm run test:production
 ```
 
